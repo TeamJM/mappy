@@ -8,12 +8,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-      
-    - name: Gradle Command
-      uses: eskatos/gradle-command-action@v1
+    
+    - name: Set up Java
+      uses: actions/setup-java@v1.0.0
       
       with:
-        arguments: build
+        version: 1.13
+      
+    - name: Gradle Command
+      run: ./gradlew build
 
     - name: Upload artifact (Slim JAR)
       uses: actions/upload-artifact@v1.0.0
