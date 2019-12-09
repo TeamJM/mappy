@@ -1,0 +1,37 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+      
+    - name: Gradle Command
+      uses: eskatos/gradle-command-action@v1
+      
+      with:
+        arguments: build
+
+    - name: Upload artifact (Slim JAR)
+      uses: actions/upload-artifact@v1.0.0
+      
+      with:
+        name: Slim JAR
+        path: build/libs/*-SNAPSHOT.jar
+        
+    - name: Upload artifact (Production JAR)
+      uses: actions/upload-artifact@v1.0.0
+      
+      with:
+        name: Production JAR
+        path: build/libs/*-SNAPSHOT-all.jar
+        
+    - name: Upload artifact (Sources JAR)
+      uses: actions/upload-artifact@v1.0.0
+      
+      with:
+        name: Sources JAR
+        path: build/libs/*-SNAPSHOT-sources.jar
