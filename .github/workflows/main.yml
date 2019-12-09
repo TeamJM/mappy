@@ -16,7 +16,7 @@ jobs:
         version: 1.13
       
     - name: Gradle Command
-      run: ./gradlew build
+      run: sh gradlew build
 
     - name: Upload artifact (Slim JAR)
       uses: actions/upload-artifact@v1.0.0
