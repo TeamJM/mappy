@@ -8,12 +8,6 @@
     <option name="PASS_PARENT_ENVS" value="true" />
     <option name="MAIN_CLASS_NAME" value="info.journeymap.mappy.MainKt" />
     <option name="WORKING_DIRECTORY" value="" />
-    <envs>
-      <env name="TOKEN" value="NjU0MDQ2NzU2MzUwMzI4ODU5.Xe_2sg.4enRczLv41qV6AABjLFN1a7oLFA" />
-      <env name="SERVER_ID" value="629369990092554240" />
-      <env name="CHANNEL_CHECKPOINT" value="654047229820272641" />
-      <env name="ROLE_VERIFIED" value="629370364040052741" />
-    </envs>
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
