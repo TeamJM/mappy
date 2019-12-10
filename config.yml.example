@@ -1,0 +1,35 @@
+# The bot token to use for authentication
+token: ""
+
+# The ID of your server
+server_id: 0
+
+# Channel IDs to make use of
+channels:
+  # Channel for bot commands
+  bot_commands: 0
+
+  # Channel for bot to output logs to
+  bot_logs: 0
+
+  # Channel for users to verify themselves in
+  checkpoint: 0
+
+# List of staff channels
+staff_channels:
+- 0
+
+# List of role IDs required for operation
+roles:
+  # Server owners
+  owners: 0
+
+  # Regular staff members
+  admins: 0
+  moderators: 0
+
+  # Muted users
+  muted: 0
+
+  # Users that have verified themselves
+  verified: 0
