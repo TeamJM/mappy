@@ -15,26 +15,32 @@ jobs:
       with:
         version: 1.12
       
-    - name: Gradle Command
+    - name: Gradle Build
       run: sh gradlew build
+
+    - name: Rename Artifacts
+      run: |
+        mv build/libs/*-SNAPSHOT.jar build/libs/Mappy-slim.jar
+        mv build/libs/*-SNAPSHOT-all.jar build/libs/Mappy.jar
+        mv build/libs/*-SNAPSHOT-sources.jar build/libs/Mappy-sources.jar
 
     - name: Upload artifact (Slim JAR)
       uses: actions/upload-artifact@v1.0.0
       
       with:
         name: Slim JAR
-        path: build/libs/*-SNAPSHOT.jar
+        path: build/libs/Mappy-slim.jar
         
     - name: Upload artifact (Production JAR)
       uses: actions/upload-artifact@v1.0.0
       
       with:
         name: Production JAR
-        path: build/libs/*-SNAPSHOT-all.jar
+        path: build/libs/Mappy.jar
         
     - name: Upload artifact (Sources JAR)
       uses: actions/upload-artifact@v1.0.0
       
       with:
         name: Sources JAR
-        path: build/libs/*-SNAPSHOT-sources.jar
+        path: build/libs/Mappy-sources.jar
