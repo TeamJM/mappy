@@ -156,3 +156,4 @@ fabric.properties
 # Gradle
 /.gradle/
 /build/
+/config.yml

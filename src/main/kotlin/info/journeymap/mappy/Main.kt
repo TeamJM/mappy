@@ -1,21 +1,22 @@
 package info.journeymap.mappy
 
 import com.charleskorn.kaml.Yaml
+import com.jagrosh.jdautilities.command.CommandClientBuilder
+import info.journeymap.mappy.commands.Verify
 import mu.KotlinLogging
 import net.dv8tion.jda.api.JDABuilder
 import java.io.File
 import kotlin.system.exitProcess
 
 private val logger = KotlinLogging.logger("main")
+var config: Config = Config()
 
 
 fun main(args: Array<String>): Unit {
     val configFile = File("config.yml")
-    val config: Config
 
     if (!configFile.exists()) {
         try {
-            config = Config()
             configFile.createNewFile()
             configFile.writeText(Yaml.default.stringify(Config.serializer(), config))
             logger.info { "Created config file 'config.yml' - please fill it out and restart the bot." }
@@ -36,5 +37,16 @@ fun main(args: Array<String>): Unit {
         exitProcess(1)
     }
 
-    val builder = JDABuilder(config.token).build()
+    val clientBuilder = CommandClientBuilder()
+    val client = clientBuilder.setPrefix("!")
+        .setOwnerId(config.ownerId.toString())
+        .addCommand(Verify())
+        .build()
+
+    val builder = JDABuilder(config.token)
+        .addEventListeners(client)
+
+    val bot = builder.build()
+
+    bot.awaitReady()
 }

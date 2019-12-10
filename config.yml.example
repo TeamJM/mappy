@@ -1,6 +1,9 @@
 # The bot token to use for authentication
 token: ""
 
+# Your user ID
+owner_id: 0
+
 # The ID of your server
 server_id: 0
 

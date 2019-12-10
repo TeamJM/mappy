@@ -7,37 +7,40 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Channels(
     @SerialName("bot_commands")
-    val botCommands: Int = System.getenv("CHANNEL_COMMANDS")?.toInt() ?: 0,
+    val botCommands: Long = System.getenv("CHANNEL_COMMANDS")?.toLong() ?: 0L,
 
     @SerialName("bot_logs")
-    val botLogs: Int = System.getenv("CHANNEL_LOGS")?.toInt() ?: 0,
+    val botLogs: Long = System.getenv("CHANNEL_LOGS")?.toLong() ?: 0L,
 
-    val checkpoint: Int = System.getenv("CHANNEL_CHECKPOINT")?.toInt() ?: 0
+    val checkpoint: Long = System.getenv("CHANNEL_CHECKPOINT")?.toLong() ?: 0L
 )
 
 
 @Serializable
 data class Roles(
-    val owners: Int = System.getenv("ROLE_OWNERS")?.toInt() ?: 0,
-    val admins: Int = System.getenv("ROLE_ADMINS")?.toInt() ?: 0,
-    val moderators: Int = System.getenv("ROLE_MODERATORS")?.toInt() ?: 0,
+    val owners: Long = System.getenv("ROLE_OWNERS")?.toLong() ?: 0L,
+    val admins: Long = System.getenv("ROLE_ADMINS")?.toLong() ?: 0L,
+    val moderators: Long = System.getenv("ROLE_MODERATORS")?.toLong() ?: 0L,
 
-    val muted: Int = System.getenv("ROLE_MUTED")?.toInt() ?: 0,
-    val verified: Int = System.getenv("ROLE_VERIFIED")?.toInt() ?: 0
+    val muted: Long = System.getenv("ROLE_MUTED")?.toLong() ?: 0L,
+    val verified: Long = System.getenv("ROLE_VERIFIED")?.toLong() ?: 0L
 )
 
 
 @Serializable
-data class Config (
+data class Config(
     val token: String = System.getenv("TOKEN") ?: "",
 
+    @SerialName("owner_id")
+    val ownerId: Long = System.getenv("OWNER_ID")?.toLong() ?: 0,
+
     @SerialName("server_id")
-    val serverId: Int = System.getenv("SERVER_ID")?.toInt() ?: 0,
+    val serverId: Long = System.getenv("SERVER_ID")?.toLong() ?: 0L,
 
     val channels: Channels = Channels(),
 
     @SerialName("staff_channels")
-    val staffChannels: List<Int> = System.getenv("SERVER_ID")?.split(",")?.map { it.toInt() } ?: listOf(0),
+    val staffChannels: List<Long> = System.getenv("STAFF_CHANNELS")?.split(",")?.map { it.toLong() } ?: listOf(0L),
 
     val roles: Roles = Roles()
 )
