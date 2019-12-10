@@ -11,7 +11,7 @@ private val logger = KotlinLogging.logger("main")
 
 fun main(args: Array<String>): Unit {
     val configFile = File("config.yml")
-    var config: Config
+    val config: Config
 
     if (!configFile.exists()) {
         try {
@@ -28,7 +28,13 @@ fun main(args: Array<String>): Unit {
         }
     }
 
-    config = Yaml.default.parse(Config.serializer(), configFile.readText())
+    try {
+        config = Yaml.default.parse(Config.serializer(), configFile.readText())
+    } catch (e: Throwable) {
+        logger.error(e) { "Failed to load config file." }
 
-    val builder = JDABuilder(config.token)
+        exitProcess(1)
+    }
+
+    val builder = JDABuilder(config.token).build()
 }
