@@ -1,5 +1,10 @@
 package info.journeymap.mappy
 
-fun main(args: Array<String>) {
-    println("Hello, world!")
+import mu.KotlinLogging
+
+private val logger = KotlinLogging.logger("main")
+
+
+fun main(args: Array<String>): Unit {
+    logger.info { "Hello, world" }
 }
