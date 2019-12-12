@@ -12,7 +12,16 @@ data class Channels(
     @SerialName("bot_logs")
     val botLogs: Long = System.getenv("CHANNEL_LOGS")?.toLong() ?: 0L,
 
-    val checkpoint: Long = System.getenv("CHANNEL_CHECKPOINT")?.toLong() ?: 0L
+    val checkpoint: Long = System.getenv("CHANNEL_CHECKPOINT")?.toLong() ?: 0L,
+
+    val info: Long = System.getenv("CHANNEL_INFO")?.toLong() ?: 0L
+)
+
+
+@Serializable
+data class Colours(
+    @SerialName("journeymap_green")
+    val journeyMapGreen: Int = System.getenv("COLOUR_JOURNEYMAP_GREEN")?.toInt() ?: 0x169718
 )
 
 
@@ -42,5 +51,6 @@ data class Config(
     @SerialName("staff_channels")
     val staffChannels: List<Long> = System.getenv("STAFF_CHANNELS")?.split(",")?.map { it.toLong() } ?: listOf(0L),
 
+    val colours: Colours = Colours(),
     val roles: Roles = Roles()
 )

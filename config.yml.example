@@ -18,9 +18,15 @@ channels:
   # Channel for users to verify themselves in
   checkpoint: 0
 
+  # Information channel
+  info: 0
+
 # List of staff channels
 staff_channels:
 - 0
+
+colours:
+  journeymap_green: 0x169718
 
 # List of role IDs required for operation
 roles:
