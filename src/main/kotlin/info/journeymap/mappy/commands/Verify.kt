@@ -1,12 +1,13 @@
 package info.journeymap.mappy.commands
 
-import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import info.journeymap.mappy.Categories
 import info.journeymap.mappy.config
+import kotlinx.coroutines.future.await
 import mu.KotlinLogging
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.Permission
+import net.dv8tion.jda.api.entities.PrivateChannel
 import net.dv8tion.jda.api.entities.Role
 import java.awt.Color
 
@@ -20,15 +21,15 @@ private val privateMessage: String = "Thanks for accepting our rules!" +
         "Please note that our rules and Code of Conduct may be modified in the future. Additionally, please " +
         "feel free to contact us if you have any questions or concerns."
 
-class Verify : Command() {
+class Verify : AsyncCommand() {
     init {
         this.category = Categories.Verification.category
         this.help = "Verify that you accept our rules"
         this.name = "verify"
-        this.botPermissions = arrayOf(Permission.MANAGE_ROLES)
+        this.botPermissions = arrayOf(Permission.MANAGE_ROLES, Permission.MESSAGE_MANAGE)
     }
 
-    override fun execute(event: CommandEvent) {
+    override suspend fun command(event: CommandEvent) {
         if (event.channel.idLong != config.channels.checkpoint) {
             // Do nothing if we're not in the checkpoint channel
             logger.debug { "Command sent to incorrect channel" }
@@ -48,30 +49,33 @@ class Verify : Command() {
             return
         }
 
-        logger.debug { "Adding verified role to user" }
+        try {
+            logger.debug { "Adding verified role to user" }
+            event.guild.addRoleToMember(event.member, role).submit().await()
+        } catch (t: Throwable) {
+            logger.error(t) { "Failed to add role" }
+            event.channel.sendMessage(
+                "I encountered a problem while trying to verify you - please notify a member of staff."
+            ).submit().await()
+            return
+        }
 
-        val embed = EmbedBuilder()
+        try {
+            event.message.delete().submit().await()
+        } catch (t: Throwable) {
+            logger.warn(t) { "Failed to delete verification command message" }
+        }
 
-        embed.setDescription(privateMessage)
-        embed.setColor(Color(config.colours.journeyMapGreen))
+        try {
+            val privateChannel: PrivateChannel = event.author.openPrivateChannel().submit().await()
+            val embed = EmbedBuilder()
 
-        event.guild.addRoleToMember(event.member, role).queue(
-            {
-                event.author.openPrivateChannel().queue {
-                    it.sendMessage(embed.build()).queue(
-                        { event.message.delete().queue() },
-                        {}
-                    )
-                }
-            },
-            {
-                logger.error(it) { "Failed to add role: $it" }
-                event.channel.sendMessage("I encountered a problem while trying to verify you - please notify a member of staff.")
-                    .queue(
-                        {},
-                        { error -> logger.error(error) { "Failed to send message: $error" } }
-                    )
-            }
-        )
+            embed.setDescription(privateMessage)
+            embed.setColor(Color(config.colours.journeyMapGreen))
+
+            privateChannel.sendMessage(embed.build()).submit().await()
+        } catch (t: Throwable) {
+            logger.warn(t) { "Failed to DM user after verification" }
+        }
     }
 }
