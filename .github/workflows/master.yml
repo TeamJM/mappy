@@ -17,7 +17,7 @@ jobs:
       
       with:
         version: 1.12
-      
+
     - name: Gradle Build
       run: sh gradlew build
 
@@ -27,9 +27,30 @@ jobs:
         mv build/libs/*-SNAPSHOT-all.jar build/libs/Mappy.jar
         mv build/libs/*-SNAPSHOT-sources.jar build/libs/Mappy-sources.jar
 
+    - name: Upload artifact (Slim JAR)
+      uses: actions/upload-artifact@v1.0.0
+
+      with:
+        name: Slim JAR
+        path: build/libs/Mappy-slim.jar
+
+    - name: Upload artifact (Production JAR)
+      uses: actions/upload-artifact@v1.0.0
+
+      with:
+        name: Production JAR
+        path: build/libs/Mappy.jar
+
+    - name: Upload artifact (Sources JAR)
+      uses: actions/upload-artifact@v1.0.0
+
+      with:
+        name: Sources JAR
+        path: build/libs/Mappy-sources.jar
+
     - name: Build Container
       run: "docker build --file Dockerfile -t teamjm/mappy:master -t teamjm/mappy:master-$(date +%s) ."
-  
+
     - name: Publish Container
       run: |
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_TOKEN }}

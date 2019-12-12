@@ -10,5 +10,7 @@ COPY build/libs/Mappy.jar /app
 WORKDIR /app
 ENTRYPOINT ["/tini", "--"]
 
-ENV COLOR_JOURNEYMAP_GREEN=169718
+ENV COLOUR_JOURNEYMAP_GREEN=169718
+ENV NO_CONFIG=1
+
 CMD ["java", "-jar", "Mappy.jar"]
