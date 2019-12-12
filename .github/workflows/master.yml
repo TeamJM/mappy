@@ -1,0 +1,36 @@
+name: Master
+
+on:
+  push:
+    branches:    
+      - master 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    
+    - name: Set up Java
+      uses: actions/setup-java@v1.0.0
+      
+      with:
+        version: 1.12
+      
+    - name: Gradle Build
+      run: sh gradlew build
+
+    - name: Rename Artifacts
+      run: |
+        mv build/libs/*-SNAPSHOT.jar build/libs/Mappy-slim.jar
+        mv build/libs/*-SNAPSHOT-all.jar build/libs/Mappy.jar
+        mv build/libs/*-SNAPSHOT-sources.jar build/libs/Mappy-sources.jar
+
+    - name: Build Container
+      run: "docker build --file Dockerfile -t teamjm/mappy:master -t teamjm/mappy:master-$(date +%s) ."
+  
+    - name: Publish Container
+      run: |
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_TOKEN }}
+        docker push teamjm/mappy
