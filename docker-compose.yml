@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  mappy:
+    image: teamjm/mappy:latest
+    container_name: mappy
+
+    volumes: /srv/mappy:/app
+
+    restart: always
+
+    environment:
+      - CHANNEL_CHECKPOINT
+      - CHANNEL_COMMANDS
+      - CHANNEL_INFO
+      - CHANNEL_LOGS
+
+      - ROLE_OWNERS
+      - ROLE_ADMINS
+      - ROLE_MODERATORS
+      - ROLE_MUTED
+      - ROLE_VERIFIED
+
+      - OWNER_ID
+      - SERVER_ID
+      - STAFF_CHANNELS
+      - TOKEN

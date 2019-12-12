@@ -49,7 +49,8 @@ data class Config(
     val channels: Channels = Channels(),
 
     @SerialName("staff_channels")
-    val staffChannels: List<Long> = System.getenv("STAFF_CHANNELS")?.split(",")?.map { it.toLong() } ?: listOf(0L),
+    val staffChannels: List<Long> = System.getenv("STAFF_CHANNELS")?.split(",")?.map { it.toLong() }?.toList()
+        ?: listOf(0L),
 
     val colours: Colours = Colours(),
     val roles: Roles = Roles()
