@@ -13,7 +13,7 @@ private val logger = KotlinLogging.logger("main")
 var config: Config = Config()
 
 
-fun main(args: Array<String>): Unit {
+fun main() {
     val configFile = File("config.yml")
 
     var loadedConfig: Config? = null
