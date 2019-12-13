@@ -3,6 +3,7 @@ package info.journeymap.mappy
 import com.charleskorn.kaml.Yaml
 import com.jagrosh.jdautilities.command.CommandClientBuilder
 import info.journeymap.mappy.commands.Verify
+import info.journeymap.mappy.events.EventDispatcher
 import mu.KotlinLogging
 import net.dv8tion.jda.api.JDABuilder
 import java.io.File
@@ -52,7 +53,7 @@ fun main(args: Array<String>): Unit {
         .build()
 
     val builder = JDABuilder(config.token)
-        .addEventListeners(client)
+        .addEventListeners(client, EventDispatcher)
 
     val bot = builder.build()
 
