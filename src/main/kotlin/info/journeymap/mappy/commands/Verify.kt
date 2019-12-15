@@ -3,6 +3,7 @@ package info.journeymap.mappy.commands
 import com.jagrosh.jdautilities.command.CommandEvent
 import info.journeymap.mappy.Categories
 import info.journeymap.mappy.config
+import info.journeymap.mappy.isStaff
 import kotlinx.coroutines.future.await
 import mu.KotlinLogging
 import net.dv8tion.jda.api.EmbedBuilder
@@ -30,7 +31,7 @@ class Verify : AsyncCommand() {
     }
 
     override suspend fun command(event: CommandEvent) {
-        if (event.channel.idLong != config.channels.checkpoint) {
+        if (event.channel.idLong != config.channels.checkpoint && event.member?.isStaff() != true) {
             // Do nothing if we're not in the checkpoint channel
             logger.debug { "Command sent to incorrect channel" }
             return
@@ -67,11 +68,30 @@ class Verify : AsyncCommand() {
         }
 
         try {
+            val logChannel = event.jda.getGuildChannelById(config.channels.botLogs)
+
+            if (logChannel != null) {
+                val embed = EmbedBuilder()
+
+                embed.setTitle("User verified")
+                embed.setThumbnail(event.author.avatarUrl)
+                embed.setImage(event.author.avatarUrl)
+                embed.setDescription("${event.author.asMention}\n${event.author.name}#${event.author.discriminator}")
+                embed.setFooter("ID: ${event.author.idLong}")
+                embed.setTimestamp(event.message.timeCreated)
+            } else {
+                logger.warn { "Logging channel not found" }
+            }
+        } catch (t: Throwable) {
+            logger.error(t) { "Failed to log verification in logging channel" }
+        }
+
+        try {
             val privateChannel: PrivateChannel = event.author.openPrivateChannel().submit().await()
             val embed = EmbedBuilder()
 
             embed.setDescription(privateMessage)
-            embed.setColor(Color(config.colours.journeyMapGreen))
+            embed.setColor(Color(config.colours.green))
 
             privateChannel.sendMessage(embed.build()).submit().await()
         } catch (t: Throwable) {

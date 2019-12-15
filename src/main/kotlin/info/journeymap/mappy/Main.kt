@@ -2,25 +2,32 @@ package info.journeymap.mappy
 
 import com.charleskorn.kaml.Yaml
 import com.jagrosh.jdautilities.command.CommandClientBuilder
+import info.journeymap.mappy.commands.Subscribe
+import info.journeymap.mappy.commands.Unsubscribe
 import info.journeymap.mappy.commands.Verify
+import info.journeymap.mappy.config.Config
 import info.journeymap.mappy.events.EventDispatcher
+import info.journeymap.mappy.listeners.MessageListener
 import mu.KotlinLogging
+import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import java.io.File
 import kotlin.system.exitProcess
 
 private val logger = KotlinLogging.logger("main")
+
+var bot: JDA? = null
 var config: Config = Config()
 
 
 fun main() {
     val configFile = File("config.yml")
 
-    var loadedConfig: Config? = null
+    val loadedConfig: Config?
 
     if (System.getenv("NO_CONFIG") != null) {
         loadedConfig = Config()
-    } else if (loadedConfig == null && !configFile.exists()) {
+    } else if (!configFile.exists()) {
         loadedConfig = Config()
 
         try {
@@ -44,18 +51,20 @@ fun main() {
         }
     }
 
-    config = loadedConfig
+    config = loadedConfig  // So it's available in other parts of the application
 
-    val clientBuilder = CommandClientBuilder()
-    val client = clientBuilder.setPrefix("!")
+    val client = CommandClientBuilder().setPrefix("!")
         .setOwnerId(config.ownerId.toString())
         .addCommand(Verify())
+        .addCommand(Subscribe())
+        .addCommand(Unsubscribe())
         .build()
 
-    val builder = JDABuilder(config.token)
+    EventDispatcher.register(MessageListener())
+
+    bot = JDABuilder(config.token)
         .addEventListeners(client, EventDispatcher)
+        .build()
 
-    val bot = builder.build()
-
-    bot.awaitReady()
+    bot?.awaitReady()
 }

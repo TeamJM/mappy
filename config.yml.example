@@ -23,10 +23,38 @@ channels:
 
 # List of staff channels
 staff_channels:
-- 0
+  - 0
 
 colours:
   journeymap_green: 0x169718
+
+# Titles to use in generated embeds
+embed_titles:
+  # Titles to use when an operation is successful
+  negative_titles:
+    - Absolutely not
+    - How about no
+    - I don't have time for this
+    - I'm sorry, Dave
+    - Nope, not gonna happen
+    - Not even once
+    - Not in this reality
+    - Not this time, friendo
+    - There's a time and place for everything
+    - You're not my mom
+
+  # Titles to use when an operation can't be actioned
+  positive_titles:
+    - Affirmative
+    - As the prophecy foretold
+    - Caaaaan do
+    - Eh, might as well
+    - Gotcha
+    - I don't see why not
+    - No problem
+    - Okay, but only because I like you
+    - Right on
+    - Sounds good to me
 
 # List of role IDs required for operation
 roles:
@@ -36,6 +64,12 @@ roles:
   # Regular staff members
   admins: 0
   moderators: 0
+
+  # Staff bots
+  bots: 0
+
+  # Users that have subscribed to announcements
+  announcements: 0
 
   # Muted users
   muted: 0

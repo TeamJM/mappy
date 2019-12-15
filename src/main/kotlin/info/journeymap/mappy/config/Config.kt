@@ -1,4 +1,4 @@
-package info.journeymap.mappy
+package info.journeymap.mappy.config
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -13,15 +13,24 @@ data class Channels(
     val botLogs: Long = System.getenv("CHANNEL_LOGS")?.toLong() ?: 0L,
 
     val checkpoint: Long = System.getenv("CHANNEL_CHECKPOINT")?.toLong() ?: 0L,
-
     val info: Long = System.getenv("CHANNEL_INFO")?.toLong() ?: 0L
 )
 
 
 @Serializable
 data class Colours(
-    @SerialName("journeymap_green")
-    val journeyMapGreen: Int = System.getenv("COLOUR_JOURNEYMAP_GREEN")?.toInt() ?: 0x169718
+    val green: Int = System.getenv("COLOUR_GREEN")?.toInt() ?: 0x169718,
+    val red: Int = System.getenv("COLOUR_RED")?.toInt() ?: 0x961917
+)
+
+
+@Serializable
+data class EmbedTitles(
+    @SerialName("negative_titles")
+    val negativeTitles: List<String> = defaultNegativeTitles,
+
+    @SerialName("positive_titles")
+    val positiveTitles: List<String> = defaultPositiveTitles
 )
 
 
@@ -30,10 +39,21 @@ data class Roles(
     val owners: Long = System.getenv("ROLE_OWNERS")?.toLong() ?: 0L,
     val admins: Long = System.getenv("ROLE_ADMINS")?.toLong() ?: 0L,
     val moderators: Long = System.getenv("ROLE_MODERATORS")?.toLong() ?: 0L,
+    val bots: Long = System.getenv("ROLE_BOTS")?.toLong() ?: 0L,
 
+    val announcements: Long = System.getenv("ROLE_ANNOUNCEMENTS")?.toLong() ?: 0L,
     val muted: Long = System.getenv("ROLE_MUTED")?.toLong() ?: 0L,
     val verified: Long = System.getenv("ROLE_VERIFIED")?.toLong() ?: 0L
-)
+) {
+    @Transient
+    var staffRoles: List<Long> = listOf()
+
+    init {
+        if (this.staffRoles.isEmpty()) {
+            staffRoles = listOf(this.owners, this.admins, this.moderators, this.bots)
+        }
+    }
+}
 
 
 @Serializable
@@ -53,5 +73,9 @@ data class Config(
         ?: listOf(0L),
 
     val colours: Colours = Colours(),
+
+    @SerialName("embed_titles")
+    val embedTitles: EmbedTitles = EmbedTitles(),
+
     val roles: Roles = Roles()
 )
