@@ -23,7 +23,7 @@ jobs:
 
     - name: Rename Artifacts
       run: |
-        cp build/libs/*-SNAPSHOT.jar build/
+        cp build/libs/*-all.jar build/
         mv build/libs/*-SNAPSHOT.jar build/libs/Mappy-slim.jar
         mv build/libs/*-SNAPSHOT-all.jar build/libs/Mappy.jar
         mv build/libs/*-SNAPSHOT-sources.jar build/libs/Mappy-sources.jar
@@ -51,7 +51,7 @@ jobs:
 
     - name: Copy production artifact back
       run: |
-        cp build/*-SNAPSHOT.jar build/libs/
+        cp build/*-all.jar build/libs/
 
     - name: Build Container
       run: "docker build --file Dockerfile -t teamjm/mappy:master -t teamjm/mappy:master-$(date +%s) ."
@@ -68,17 +68,5 @@ jobs:
         export SALTAPI_URL=https://${{ secrets.SALT_DOMAIN  }}
         export SALTAPI_USER=${{ secrets.SALT_USER }}
 
-        curl -sSk https://${{ secrets.SALT_DOMAIN }}/login \
-            -c ~/cookies.txt \
-            -H "Accept: application/x-yaml" \
-            -d "username=${{ secrets.SALT_USER }}" \
-            -d "password=${{ secrets.SALT_PASSWORD }}" \
-            -d eauth=pam
-
-        curl -sSk https://${{ secrets.SALT_DOMAIN }} \
-            -b ~/cookies.txt \
-            -H "Accept: application/x-yaml" \
-            -d client=local_async \
-            -d tgt="glimglam.gserv.me" \
-            -d fun=state.apply \
-            -d args=docker/journeymap-mappy
+        cd scripts
+        python salt.py

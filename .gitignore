@@ -157,3 +157,6 @@ fabric.properties
 /.gradle/
 /build/
 /config.yml
+
+# Deployment script
+scripts/Saltcord

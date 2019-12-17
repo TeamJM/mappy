@@ -45,11 +45,6 @@ jar {
 
 shadowJar {
     configurations = [project.configurations.compile, project.configurations.runtime]
-
-    relocate "org.intellij", "info.journeymap.shaded.org.intellij"
-    relocate "org.jetbrains", "info.journeymap.shaded.org.jetbrains"
-
-    relocate "kotlin", "info.journeymap.shaded.kotlin.kotlin"
 }
 
 compileKotlin {
