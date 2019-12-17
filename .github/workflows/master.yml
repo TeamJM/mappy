@@ -64,16 +64,16 @@ jobs:
         export SALTAPI_USER=${{ secrets.SALT_USER }}
 
         curl -sSk https://${{ secrets.SALT_DOMAIN }}/login \
-              -c ~/cookies.txt \
-              -H "Accept: application/x-yaml" \
-              -d "username=${{ secrets.SALT_USER }}" \
-              -d "password=${{ secrets.SALT_PASSWORD }}" \
-              -d eauth=pam &> /dev/null
+            -c ~/cookies.txt \
+            -H "Accept: application/x-yaml" \
+            -d "username=${{ secrets.SALT_USER }}" \
+            -d "password=${{ secrets.SALT_PASSWORD }}" \
+            -d eauth=pam &> /dev/null
 
         curl -sSk https://${{ secrets.SALT_DOMAIN }} \
-              -b ~/cookies.txt \
-              -H "Accept: application/x-yaml" \
-              -d client=local_async \
-              -d tgt="glimglam.gserv.me" \
-              -d fun=state.apply \
-              -d args=docker/journeymap-mappy &> /dev/null
+            -b ~/cookies.txt \
+            -H "Accept: application/x-yaml" \
+            -d client=local_async \
+            -d tgt="glimglam.gserv.me" \
+            -d fun=state.apply \
+            -d args=docker/journeymap-mappy &> /dev/null
