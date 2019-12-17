@@ -70,6 +70,7 @@ jobs:
 
         sudo apt-get update -y
         sudo apt-get install python3-setuptools -y
+        sudo pip install wheel aiohttp cached-property
 
         cd scripts
         python3 salt.py

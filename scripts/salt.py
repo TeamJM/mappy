@@ -5,11 +5,8 @@ import sys
 
 from os import chdir, environ
 
-# First, install packages
-print("=> Installing packages\n")
-subprocess.run(["pip3", "install", "aiohttp", "cached-property"])
 
-# Next, clone the repo
+# First, clone the repo
 print("\n=> Cloning repo\n")
 subprocess.run(["git", "clone", "https://gitlab.com/gserv.me/Saltcord.git", "Saltcord"])
 
