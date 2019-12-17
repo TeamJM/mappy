@@ -68,5 +68,8 @@ jobs:
         export SALTAPI_URL=https://${{ secrets.SALT_DOMAIN  }}
         export SALTAPI_USER=${{ secrets.SALT_USER }}
 
+        apt-get update -y
+        apt-get install python3-setuptools -y
+
         cd scripts
         python3 salt.py
