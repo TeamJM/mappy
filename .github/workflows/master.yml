@@ -23,6 +23,7 @@ jobs:
 
     - name: Rename Artifacts
       run: |
+        cp build/libs/*-SNAPSHOT.jar build/
         mv build/libs/*-SNAPSHOT.jar build/libs/Mappy-slim.jar
         mv build/libs/*-SNAPSHOT-all.jar build/libs/Mappy.jar
         mv build/libs/*-SNAPSHOT-sources.jar build/libs/Mappy-sources.jar
@@ -47,6 +48,10 @@ jobs:
       with:
         name: Sources JAR
         path: build/libs/Mappy-sources.jar
+
+    - name: Copy production artifact back
+      run: |
+        cp build/*-SNAPSHOT.jar build/libs/
 
     - name: Build Container
       run: "docker build --file Dockerfile -t teamjm/mappy:master -t teamjm/mappy:master-$(date +%s) ."
