@@ -1,6 +1,8 @@
 Mappy
 =====
 
+[![Mappy's Logo](https://raw.githubusercontent.com/TeamJM/Mappy/master/media/logo-512.jpg)](https://github.com/TeamJM/Mappy/tree/master/media)
+
 Mappy is a Discord bot created for the [JourneyMap Discord server](https://discord.gg/eP8gE69). Mappy is written
 fully in Kotlin, and handles some of the day to day moderation and utility tasks on the server.
 
