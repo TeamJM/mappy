@@ -7,7 +7,7 @@ from os import chdir, environ
 
 # First, install packages
 print("=> Installing packages\n")
-subprocess.run(["pip", "install", "aiohttp", "cached-property"])
+subprocess.run(["pip3", "install", "aiohttp", "cached-property"])
 
 # Next, clone the repo
 print("\n=> Cloning repo\n")
