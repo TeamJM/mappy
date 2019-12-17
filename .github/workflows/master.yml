@@ -65,4 +65,4 @@ jobs:
         export SALTAPI_URL=https://${{ secrets.SALT_DOMAIN  }}
         export SALTAPI_USER=${{ secrets.SALT_USER }}
 
-        %PYTHONHOME%/scripts/pepper glimglam.gserv.me docker/journeymap-mappy
+        python %PYTHONHOME%/scripts/pepper glimglam.gserv.me docker/journeymap-mappy
