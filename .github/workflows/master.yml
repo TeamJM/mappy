@@ -69,4 +69,4 @@ jobs:
         export SALTAPI_USER=${{ secrets.SALT_USER }}
 
         cd scripts
-        python salt.py
+        python3 salt.py
