@@ -6,4 +6,4 @@ RUN mv /app/Mappy-*-all.jar /app/Mappy.jar
 
 WORKDIR /app
 
-CMD ["java", "-jar", "Mappy.jar"]
+CMD ["java", "-jar", "/app/Mappy.jar"]
