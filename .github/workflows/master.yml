@@ -72,4 +72,4 @@ jobs:
         sudo apt-get install python3-setuptools -y
 
         cd scripts
-        sudo python3 salt.py
+        python3 salt.py
