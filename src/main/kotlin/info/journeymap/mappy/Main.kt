@@ -8,6 +8,8 @@ import info.journeymap.mappy.commands.Verify
 import info.journeymap.mappy.config.Config
 import info.journeymap.mappy.events.EventDispatcher
 import info.journeymap.mappy.listeners.MessageListener
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import mu.KotlinLogging
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
@@ -61,6 +63,11 @@ fun main() {
         .build()
 
     EventDispatcher.register(MessageListener())
+
+    GlobalScope.launch {
+        // Set up the URL blacklist handler
+        urlBlacklistHandler.setup()
+    }
 
     bot = JDABuilder(config.token)
         .addEventListeners(client, EventDispatcher)

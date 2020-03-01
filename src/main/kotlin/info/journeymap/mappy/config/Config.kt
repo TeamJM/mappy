@@ -12,6 +12,8 @@ data class Channels(
     @SerialName("bot_logs")
     val botLogs: Long = System.getenv("CHANNEL_LOGS")?.toLong() ?: 0L,
 
+    val mods: Long = System.getenv("CHANNEL_MODS")?.toLong() ?: 0L,
+
     val checkpoint: Long = System.getenv("CHANNEL_CHECKPOINT")?.toLong() ?: 0L,
     val info: Long = System.getenv("CHANNEL_INFO")?.toLong() ?: 0L
 )

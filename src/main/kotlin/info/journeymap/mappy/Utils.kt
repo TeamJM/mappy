@@ -3,6 +3,7 @@ package info.journeymap.mappy
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.GuildChannel
 import net.dv8tion.jda.api.entities.Member
+import java.net.URL
 
 private val channelMap: MutableMap<Long, GuildChannel?> = mutableMapOf()
 
@@ -33,3 +34,5 @@ fun getPositiveEmbedBuilder(): EmbedBuilder {
 
     return builder
 }
+
+fun String.asResource(): URL? = object {}.javaClass.getResource(this)

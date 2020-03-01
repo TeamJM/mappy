@@ -160,3 +160,6 @@ fabric.properties
 
 # Deployment script
 scripts/Saltcord
+
+# Unknown leftover files
+.#*

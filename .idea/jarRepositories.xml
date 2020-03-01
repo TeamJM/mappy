@@ -21,5 +21,10 @@
       <option name="name" value="BintrayJCenter" />
       <option name="url" value="https://jcenter.bintray.com/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="Sonatype" />
+      <option name="name" value="Sonatype" />
+      <option name="url" value="http://oss.sonatype.org/content/groups/public/" />
+    </remote-repository>
   </component>
 </project>

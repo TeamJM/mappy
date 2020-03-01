@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.entities.PrivateChannel
 import net.dv8tion.jda.api.entities.Role
+import net.dv8tion.jda.api.entities.TextChannel
 import java.awt.Color
 
 private val logger = KotlinLogging.logger("command/verify")
@@ -68,7 +69,7 @@ class Verify : AsyncCommand() {
         }
 
         try {
-            val logChannel = event.jda.getGuildChannelById(config.channels.botLogs)
+            val logChannel: TextChannel? = event.jda.getTextChannelById(config.channels.botLogs)
 
             if (logChannel != null) {
                 val embed = EmbedBuilder()
@@ -79,6 +80,8 @@ class Verify : AsyncCommand() {
                 embed.setDescription("${event.author.asMention}\n${event.author.name}#${event.author.discriminator}")
                 embed.setFooter("ID: ${event.author.idLong}")
                 embed.setTimestamp(event.message.timeCreated)
+
+                logChannel.sendMessage(embed.build()).submit().await()
             } else {
                 logger.warn { "Logging channel not found" }
             }
