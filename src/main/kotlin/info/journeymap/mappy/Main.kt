@@ -1,77 +1,33 @@
 package info.journeymap.mappy
 
-import com.charleskorn.kaml.Yaml
-import com.jagrosh.jdautilities.command.CommandClientBuilder
-import info.journeymap.mappy.commands.Subscribe
-import info.journeymap.mappy.commands.Unsubscribe
-import info.journeymap.mappy.commands.Verify
-import info.journeymap.mappy.config.Config
-import info.journeymap.mappy.events.EventDispatcher
-import info.journeymap.mappy.listeners.MessageListener
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.kotlindiscord.kord.extensions.ExtensibleBot
+import info.journeymap.mappy.config.buildInfo
+import info.journeymap.mappy.config.config
+import io.sentry.Sentry
 import mu.KotlinLogging
-import net.dv8tion.jda.api.JDA
-import net.dv8tion.jda.api.JDABuilder
-import java.io.File
-import kotlin.system.exitProcess
 
 private val logger = KotlinLogging.logger("main")
 
-var bot: JDA? = null
-var config: Config = Config()
+/** The current instance of the bot. **/
+val bot = ExtensibleBot(prefix = config.prefix, token = config.token)
 
 
-fun main() {
-    val configFile = File("config.yml")
+suspend fun main() {
+    val logger = KotlinLogging.logger {}
 
-    val loadedConfig: Config?
+    logger.info { "Starting Mappy version ${buildInfo.version}." }
 
-    if (System.getenv("NO_CONFIG") != null) {
-        loadedConfig = Config()
-    } else if (!configFile.exists()) {
-        loadedConfig = Config()
+//    bot.addExtension(CleanExtension::class)
+//    bot.addExtension(FilterExtension::class)
+//    bot.addExtension(LoggingExtension::class)
+//    bot.addExtension(ModerationExtension::class)
+//    bot.addExtension(SubscriptionExtension::class)
+//    bot.addExtension(SyncExtension::class)
+//    bot.addExtension(VerificationExtension::class)
+//
+//    if (environment == "dev") {
+//        bot.addExtension(TestExtension::class)
+//    }
 
-        try {
-            configFile.createNewFile()
-            configFile.writeText(Yaml.default.stringify(Config.serializer(), loadedConfig))
-            logger.info { "Created config file 'config.yml' - please fill it out and restart the bot." }
-
-            exitProcess(0)
-        } catch (e: Throwable) {
-            logger.error(e) { "Failed to create config file." }
-
-            exitProcess(1)
-        }
-    } else {
-        try {
-            loadedConfig = Yaml.default.parse(Config.serializer(), configFile.readText())
-        } catch (e: Throwable) {
-            logger.error(e) { "Failed to load config file." }
-
-            exitProcess(1)
-        }
-    }
-
-    config = loadedConfig  // So it's available in other parts of the application
-
-    val client = CommandClientBuilder().setPrefix("!")
-        .setOwnerId(config.ownerId.toString())
-        .addCommand(Verify())
-        .addCommand(Subscribe())
-        .addCommand(Unsubscribe())
-        .build()
-
-    EventDispatcher.register(MessageListener())
-
-    GlobalScope.launch {
-        // Set up the URL blacklist handler
-        urlBlacklistHandler.setup()
-    }
-
-    bot = JDABuilder(config.token)
-        .addEventListeners(client, EventDispatcher)
-        .build()
-
-    bot?.awaitReady()
+    bot.start()
 }
