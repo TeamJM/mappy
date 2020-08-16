@@ -7,7 +7,7 @@ import com.uchuhimo.konf.ConfigSpec
  *
  * This is used by Konf, and will not need to be accessed externally.
  */
-object RolesSpec : ConfigSpec() {
+object RolesSpec : ConfigSpec("roles") {
     /** Configured owner role ID. **/
     val owner by required<Long>()
 

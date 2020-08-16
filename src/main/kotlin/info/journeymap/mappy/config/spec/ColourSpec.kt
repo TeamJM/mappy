@@ -7,7 +7,7 @@ import com.uchuhimo.konf.ConfigSpec
  *
  * This is used by Konf, and will not need to be accessed externally.
  */
-object ColourSpec : ConfigSpec() {
+object ColourSpec : ConfigSpec("colours") {
     /** Configured green colour. **/
     val green by optional(default = 0x169718)
 

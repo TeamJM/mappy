@@ -25,12 +25,12 @@ class MappyConfig {
         addSpec(ChannelsSpec)
         addSpec(ColourSpec)
         addSpec(EmbedSpec)
+        addSpec(FilterSpec)
         addSpec(RolesSpec)
     }
         .from.enabled(Feature.FAIL_ON_UNKNOWN_PATH).toml.resource("default.toml")
         .from.env()
         .from.systemProperties()
-
 
     init {
         if (File("config.toml").exists()) {

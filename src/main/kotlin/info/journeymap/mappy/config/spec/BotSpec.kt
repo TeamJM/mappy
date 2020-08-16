@@ -7,7 +7,7 @@ import com.uchuhimo.konf.ConfigSpec
  *
  * This is used by Konf, and will not need to be accessed externally.
  */
-object BotSpec : ConfigSpec() {
+object BotSpec : ConfigSpec("bot") {
     /** Configured primary guild ID. **/
     val guild by required<Long>(description = "Primary guild ID")
 
@@ -15,5 +15,5 @@ object BotSpec : ConfigSpec() {
     val token by required<String>(description = "Bot login token")
 
     /** Character/s required before command names. **/
-    val commandPrefix by optional<String>(name = "prefix", default = "!", description = "Command prefix character")
+    val commandPrefix by optional(name = "prefix", default = "!", description = "Command prefix character")
 }

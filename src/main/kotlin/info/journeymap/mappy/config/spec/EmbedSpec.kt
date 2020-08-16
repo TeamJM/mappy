@@ -33,7 +33,7 @@ private val defaultNegativeTitles: List<String> = listOf(
  *
  * This is used by Konf, and will not need to be accessed externally.
  */
-object EmbedSpec : ConfigSpec() {
+object EmbedSpec : ConfigSpec("embeds") {
     /** Configured positive embed titles. **/
     val positiveTitles by optional(default = defaultPositiveTitles)
 

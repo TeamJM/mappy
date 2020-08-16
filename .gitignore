@@ -157,6 +157,7 @@ fabric.properties
 /.gradle/
 /build/
 /config.yml
+/config.toml
 
 # Deployment script
 scripts/Saltcord

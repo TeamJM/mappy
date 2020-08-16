@@ -3,7 +3,9 @@ package info.journeymap.mappy
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import info.journeymap.mappy.config.buildInfo
 import info.journeymap.mappy.config.config
-import io.sentry.Sentry
+import info.journeymap.mappy.extensions.FilterExtension
+import info.journeymap.mappy.extensions.SubscribeExtension
+import info.journeymap.mappy.extensions.VerificationExtension
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger("main")
@@ -17,17 +19,9 @@ suspend fun main() {
 
     logger.info { "Starting Mappy version ${buildInfo.version}." }
 
-//    bot.addExtension(CleanExtension::class)
-//    bot.addExtension(FilterExtension::class)
-//    bot.addExtension(LoggingExtension::class)
-//    bot.addExtension(ModerationExtension::class)
-//    bot.addExtension(SubscriptionExtension::class)
-//    bot.addExtension(SyncExtension::class)
-//    bot.addExtension(VerificationExtension::class)
-//
-//    if (environment == "dev") {
-//        bot.addExtension(TestExtension::class)
-//    }
+    bot.addExtension(FilterExtension::class)
+    bot.addExtension(SubscribeExtension::class)
+    bot.addExtension(VerificationExtension::class)
 
     bot.start()
 }
