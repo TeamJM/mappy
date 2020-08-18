@@ -6,6 +6,9 @@ Mappy
 Mappy is a Discord bot created for the [JourneyMap Discord server](https://discord.gg/eP8gE69). Mappy is written
 fully in Kotlin, and handles some of the day to day moderation and utility tasks on the server.
 
+Mappy is written using [kord-extensions](https://github.com/Kotlin-Discord/kord-extensions) and contains some code
+written for the [Kotlin Discord bot](https://github.com/Kotlin-Discord/bot).
+
 Contributing
 ============
 
@@ -30,13 +33,21 @@ Usage
 We recommend that Mappy be run using Docker. That said, you can also directly run the production JAR - you can find
 downloads attached to each Actions build.
 
-The first time you run Mappy, it will generate a configuration file - `config.yml`. Open this up and fill it out. If
-you prefer, you can copy `config.yml.example` to `config.yml` and fill that out instead - it's commented to make your
-life a little easier.
+Mappy makes use of the `konf` library, and in particular supports configuration files written in TOML. Configuration
+values may also be provided using system properties or environment variables. The default configuration 
+[can be found here](https://github.com/TeamJM/Mappy/blob/master/src/main/resources/default.toml). For example:
 
-If you prefer, Mappy can use environment variables when generating this initial config file. For more information on
-which environment variables are mapped to which configuration values, please see 
-[Config.kt](https://github.com/TeamJM/Mappy/blob/master/src/main/kotlin/info/journeymap/mappy/Config.kt).
+```toml
+[bot]
+guild = 239040424214396929
+prefix = "!"
+```
 
-You can prevent Mappy from generating a config file (so it just uses the environment variables directly) by setting
-the `NO_CONFIG` environment variable.
+The `guild` entry under the `bot` header will be referred to as `bot.guild`, and 
+[is defined here](https://github.com/TeamJM/Mappy/blob/master/src/main/kotlin/info/journeymap/mappy/config/spec/BotSpec.kt#L12).
+When working with environment variables, you replace every dot (`.`) with an underscore (`_`), and make the entire key
+upper-case. For example, `BOT_GUILD=239040424214396929`. For more information on how this works, see 
+[part 3 of the konf quick-start](https://github.com/uchuhimo/konf#quick-start).
+
+If you're wondering what can be configured, please 
+[take a look at the config spec objects](https://github.com/TeamJM/Mappy/tree/master/src/main/kotlin/info/journeymap/mappy/config/spec).
