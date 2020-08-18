@@ -50,6 +50,8 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
 
+    implementation 'org.nibor.autolink:autolink:0.10.0'
+
     // Logging dependencies
     implementation 'ch.qos.logback:logback-classic:1.2.3'
     implementation 'io.github.microutils:kotlin-logging:1.7.9'

@@ -53,6 +53,28 @@ class MappyConfig {
      */
     val guildSnowflake: Snowflake get() = Snowflake(config[BotSpec.guild])
 
+    /** Whether to use the StopModReposts blacklist **/
+    val useStopModReposts: Boolean get() = config[FilterSpec.stopModReposts]
+
+    /** Banned adult domains **/
+    val adultDomains: List<String> get() = config[FilterSpec.DomainsSpec.adult]
+
+    /** Banned adult domains **/
+    val antiPrivacyDomains: List<String> get() = config[FilterSpec.DomainsSpec.antiPrivacy]
+
+    /** Banned adult domains **/
+    val objectionableDomains: List<String> get() = config[FilterSpec.DomainsSpec.objectionable]
+
+    /**
+     * Get a Set containing all the configured banned domains.
+     *
+     * This does not include any StopModReposts domains.
+     *
+     * @return The set of banned domains.
+     */
+    fun getBannedDomains(): Set<String> =
+        adultDomains.toSet() + antiPrivacyDomains.toSet() + objectionableDomains.toSet()
+    
     /**
      * Given a [Channels] enum value, attempt to retrieve the corresponding Discord [Channel]
      * object.
@@ -65,10 +87,10 @@ class MappyConfig {
     suspend fun getChannel(channel: Channels): Channel {
         val snowflake = when (channel) {
             Channels.BOT_COMMANDS -> Snowflake(config[ChannelsSpec.botCommands])
-            Channels.BOT_LOGS     -> Snowflake(config[ChannelsSpec.botLogs])
-            Channels.MODS         -> Snowflake(config[ChannelsSpec.mods])
-            Channels.INFO         -> Snowflake(config[ChannelsSpec.info])
-            Channels.CHECKPOINT   -> Snowflake(config[ChannelsSpec.checkpoint])
+            Channels.BOT_LOGS -> Snowflake(config[ChannelsSpec.botLogs])
+            Channels.MODS -> Snowflake(config[ChannelsSpec.mods])
+            Channels.INFO -> Snowflake(config[ChannelsSpec.info])
+            Channels.CHECKPOINT -> Snowflake(config[ChannelsSpec.checkpoint])
         }
 
         return bot.kord.getChannel(snowflake) ?: throw MissingChannelException(snowflake.longValue)
@@ -82,12 +104,12 @@ class MappyConfig {
      */
     fun getRoleSnowflake(role: Roles): Snowflake {
         return when (role) {
-            Roles.OWNER         -> Snowflake(config[RolesSpec.owner])
-            Roles.ADMIN         -> Snowflake(config[RolesSpec.admin])
-            Roles.MODERATOR     -> Snowflake(config[RolesSpec.moderator])
-            Roles.BOT           -> Snowflake(config[RolesSpec.bot])
-            Roles.VERIFIED      -> Snowflake(config[RolesSpec.verified])
-            Roles.MUTED         -> Snowflake(config[RolesSpec.muted])
+            Roles.OWNER -> Snowflake(config[RolesSpec.owner])
+            Roles.ADMIN -> Snowflake(config[RolesSpec.admin])
+            Roles.MODERATOR -> Snowflake(config[RolesSpec.moderator])
+            Roles.BOT -> Snowflake(config[RolesSpec.bot])
+            Roles.VERIFIED -> Snowflake(config[RolesSpec.verified])
+            Roles.MUTED -> Snowflake(config[RolesSpec.muted])
             Roles.ANNOUNCEMENTS -> Snowflake(config[RolesSpec.announcements])
         }
     }
@@ -124,7 +146,7 @@ class MappyConfig {
      * @return The [Color] object represented by the given [Colours] enum value.
      */
     fun getColour(colour: Colours): Color = when (colour) {
-        Colours.RED   -> Color.decode(config[ColourSpec.red].toString())
+        Colours.RED -> Color.decode(config[ColourSpec.red].toString())
         Colours.GREEN -> Color.decode(config[ColourSpec.green].toString())
         Colours.BLURPLE -> Color.decode("#7289DA")  // Discord blurple
     }
