@@ -29,7 +29,6 @@ jobs:
 
         mv build/libs/*-SNAPSHOT.jar build/libs/Mappy-slim.jar
         mv build/libs/*-SNAPSHOT-all.jar build/libs/Mappy.jar
-        mv build/libs/*-SNAPSHOT-sources.jar build/libs/Mappy-sources.jar
 
     - name: Upload artifact (Slim JAR)
       uses: actions/upload-artifact@v1.0.0
@@ -44,10 +43,3 @@ jobs:
       with:
         name: Production JAR
         path: build/libs/Mappy.jar
-        
-    - name: Upload artifact (Sources JAR)
-      uses: actions/upload-artifact@v1.0.0
-      
-      with:
-        name: Sources JAR
-        path: build/libs/Mappy-sources.jar
