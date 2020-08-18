@@ -26,6 +26,3 @@ bot = 551353038439448576
 announcements = 551875505624973343
 muted = 358221283064020992
 verified = 348933224095023104
-
-[filter]
-stopModReposts = false  # Their YAML endpoint is invalid right now, and the JSON one won't work for us
