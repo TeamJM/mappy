@@ -23,7 +23,9 @@ jobs:
 
     - name: Rename Artifacts
       run: |
+        ls build/libs
         cp build/libs/*-all.jar build/
+
         mv build/libs/*-SNAPSHOT.jar build/libs/Mappy-slim.jar
         mv build/libs/*-SNAPSHOT-all.jar build/libs/Mappy.jar
         mv build/libs/*-SNAPSHOT-sources.jar build/libs/Mappy-sources.jar
