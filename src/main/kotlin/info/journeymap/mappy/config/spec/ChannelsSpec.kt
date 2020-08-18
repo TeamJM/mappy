@@ -23,6 +23,6 @@ object ChannelsSpec : ConfigSpec("channels") {
     /** Configured checkpoint channel ID. **/
     val checkpoint by required<Long>()
 
-    /** List of staff channels **/
+    /** List of staff channels. **/
     val staffChannels by required<List<Long>>()
 }

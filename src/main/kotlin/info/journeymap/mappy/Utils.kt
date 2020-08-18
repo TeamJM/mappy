@@ -9,6 +9,12 @@ import kotlinx.coroutines.launch
 import mu.KotlinLogging
 import org.nibor.autolink.LinkSpan
 
+/**
+ * Retrieve the URL scheme for a given [LinkSpan].
+ *
+ * @param content String containing the URLs for this [LinkSpan]
+ * @return The corresponding URL scheme, or null if there isn't one
+ */
 fun LinkSpan.getScheme(content: String): String? {
     val domain = content.substring(beginIndex, endIndex)
 
@@ -19,6 +25,12 @@ fun LinkSpan.getScheme(content: String): String? {
     return null
 }
 
+/**
+ * Retrieve the domain for a given [LinkSpan].
+ *
+ * @param content String containing the URLs for this [LinkSpan]
+ * @return The corresponding domain for the URL
+ */
 fun LinkSpan.getDomain(content: String): String {
     var domain = content.substring(beginIndex, endIndex)
 

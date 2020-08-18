@@ -6,9 +6,9 @@ package info.journeymap.mappy.enums
  * @param value A human-readable representation of the given title type.
  */
 enum class Titles(val value: String) {
-    /** Positive titles **/
+    /** Positive titles. **/
     POSITIVE("positive"),
 
-    /** Negative titles **/
+    /** Negative titles. **/
     NEGATIVE("negative")
 }

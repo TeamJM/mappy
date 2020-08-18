@@ -19,6 +19,9 @@ import info.journeymap.mappy.enums.Titles
 import java.awt.Color
 import java.io.File
 
+/**
+ * Class representing the bot's configuration.
+ */
 class MappyConfig {
     private var config = Config {
         addSpec(BotSpec)
@@ -53,16 +56,16 @@ class MappyConfig {
      */
     val guildSnowflake: Snowflake get() = Snowflake(config[BotSpec.guild])
 
-    /** Whether to use the StopModReposts blacklist **/
+    /** Whether to use the StopModReposts blacklist. **/
     val useStopModReposts: Boolean get() = config[FilterSpec.stopModReposts]
 
-    /** Banned adult domains **/
+    /** Banned adult domains. **/
     val adultDomains: List<String> get() = config[FilterSpec.DomainsSpec.adult]
 
-    /** Banned adult domains **/
+    /** Banned adult domains. **/
     val antiPrivacyDomains: List<String> get() = config[FilterSpec.DomainsSpec.antiPrivacy]
 
-    /** Banned adult domains **/
+    /** Banned adult domains. **/
     val objectionableDomains: List<String> get() = config[FilterSpec.DomainsSpec.objectionable]
 
     /**
@@ -74,7 +77,7 @@ class MappyConfig {
      */
     fun getBannedDomains(): Set<String> =
         adultDomains.toSet() + antiPrivacyDomains.toSet() + objectionableDomains.toSet()
-    
+
     /**
      * Given a [Channels] enum value, attempt to retrieve the corresponding Discord [Channel]
      * object.

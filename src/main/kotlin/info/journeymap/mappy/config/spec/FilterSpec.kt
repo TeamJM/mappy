@@ -18,7 +18,7 @@ private val antiPrivacyDefaults = listOf(  // Sites that exist to invade your pr
 
     // Main Grabify domain
     "grabify.link",
-    
+
     // Known Grabify shortener domains
     "bmwforum.co",
     "leancoding.co",

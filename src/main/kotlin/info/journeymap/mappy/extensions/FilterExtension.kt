@@ -16,7 +16,7 @@ import info.journeymap.mappy.*
 import info.journeymap.mappy.config.config
 import info.journeymap.mappy.enums.Channels
 import info.journeymap.mappy.enums.Roles
-import info.journeymap.mappy.mod_reposts.modReposts
+import info.journeymap.mappy.stopmodreposts.modReposts
 import io.ktor.http.*
 import mu.KotlinLogging
 import org.nibor.autolink.LinkExtractor
@@ -25,7 +25,7 @@ import org.nibor.autolink.LinkType
 private val logger = KotlinLogging.logger {}
 
 /** How long to wait before removing notification messages in channels - 10 seconds. **/
-const val DELETE_DELAY = 10_000L
+private const val DELETE_DELAY = 10_000L
 
 /**
  * Filter in charge of filtering out bad messages (based on URLs right now).
