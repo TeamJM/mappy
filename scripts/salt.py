@@ -43,7 +43,7 @@ async def run():
 
     print("=> Applying state\n")
 
-    result = await salt.apply_state("glimglam.gserv.me", "docker/journeymap-mappy")
+    result = await salt.apply_state("shimmer.gserv.me", "docker/journeymap-mappy")
     jid = result[0]["jid"]
 
     print(f"\n=> State applied, job ID: {jid}\n")

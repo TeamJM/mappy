@@ -33,9 +33,11 @@ Usage
 We recommend that Mappy be run using Docker. That said, you can also directly run the production JAR - you can find
 downloads attached to each Actions build.
 
-Mappy makes use of the `konf` library, and in particular supports configuration files written in TOML. Configuration
-values may also be provided using system properties or environment variables. The default configuration 
-[can be found here](https://github.com/TeamJM/Mappy/blob/master/src/main/resources/default.toml). For example:
+Mappy makes use of the `konf` library, and in particular supports configuration files written in TOML, in a 
+file named `config.toml`. Configuration values may also be provided using system properties or environment variables. 
+The default configuration 
+[can be found here](https://github.com/TeamJM/Mappy/blob/master/src/main/resources/default.toml). 
+For example:
 
 ```toml
 [bot]
