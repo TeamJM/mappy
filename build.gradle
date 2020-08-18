@@ -1,74 +1,105 @@
+buildscript {
+    repositories {
+        maven {
+            name = 'KotDis'
+            url = 'https://maven.kotlindiscord.com/repository/maven-public/'
+        }
+    }
+}
+
 plugins {
-    id 'java'
+    id 'application'
 
+    id 'com.github.jakemarsden.git-hooks' version '0.0.1'
     id 'com.github.johnrengelman.shadow' version '5.2.0'
-
-    id 'org.jetbrains.kotlin.jvm' version '1.3.61'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.3.61'
+    id 'io.gitlab.arturbosch.detekt' version '1.8.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.72'
 }
 
 group 'info.journeymap.mappy'
-version '1.1-SNAPSHOT'
+version '2.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
 repositories {
-    jcenter()
-    mavenCentral()
+    mavenLocal()
 
     maven {
-        name "Sonatype (Public)"
-        url "http://oss.sonatype.org/content/groups/public/"
+        name = 'KotDis'
+        url = 'https://maven.kotlindiscord.com/repository/maven-snapshots/'
+    }
+
+    mavenCentral()
+    jcenter()
+
+    maven {
+        name = 'Kord'
+        url = 'https://dl.bintray.com/kordlib/Kord'
     }
 }
 
-sourceSets {
-    main.java.srcDirs += 'src/main/kotlin/'
-    test.java.srcDirs += 'src/test/kotlin/'
-}
-
 dependencies {
-    compile 'ch.qos.logback:logback-classic:1.3.0-alpha5'
-    compile 'com.charleskorn.kaml:kaml:0.15.0'
-    compile 'com.github.kittinunf.fuel:fuel:2.2.1'
-    compile 'com.github.kittinunf.fuel:fuel-coroutines:2.2.1'
-    compile 'com.jagrosh:jda-utilities:3.0.2'
-    compile 'com.linkedin.urls:url-detector:0.1.17'
-    compile 'io.github.microutils:kotlin-logging:1.7.8'
-    compile 'net.dv8tion:JDA:4.0.0_39'
-    compile "org.snakeyaml:snakeyaml-engine:2.0"
-    compile "org.yaml:snakeyaml:1.26-SNAPSHOT"
+    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.8.0"
 
-    compile 'org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.14.0'
-    compile "org.jetbrains.kotlin:kotlin-reflect:1.3.61"
-    compile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.3.2'
+    implementation 'com.kotlindiscord.kord.extensions:kord-extensions:1.1-SNAPSHOT'
 
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation 'com.uchuhimo:konf:0.22.1'
+    implementation 'com.uchuhimo:konf-toml:0.22.1'
+    implementation 'com.uchuhimo:konf-yaml:0.22.1'
+
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    implementation 'org.jetbrains.kotlin:kotlin-reflect'
+
+    implementation 'org.nibor.autolink:autolink:0.10.0'
+
+    // Logging dependencies
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+    implementation 'io.github.microutils:kotlin-logging:1.7.9'
+    implementation 'io.sentry:sentry-logback:1.7.30'
+    implementation 'org.codehaus.groovy:groovy:3.0.4'  // For logback config
 }
 
-jar {
-    manifest { attributes "Main-Class": "info.journeymap.mappy.MainKt" }
-}
-
-shadowJar {
-    configurations = [project.configurations.compile, project.configurations.runtime]
+application {
+    mainClassName = "info.journeymap.mappy.MainKt"
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = '11'
 }
+
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = '11'
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    archiveClassifier = 'sources'
-    from sourceSets.main.java.srcDirs
+detekt {
+    buildUponDefaultConfig = true
+    config = files("detekt.yml")
 }
 
-artifacts {
-    archives sourcesJar
-    archives shadowJar
+gitHooks {
+    hooks = ['pre-commit': 'detekt']
+}
+
+jar {
+    manifest {
+        attributes(
+                "Main-Class": "info.journeymap.mappy.MainKt"
+        )
+    }
+}
+
+processResources {
+    dependsOn "generateBuildInfo"
+
+    from "src/main/resources/build.properties"
+}
+
+task generateBuildInfo() {
+    outputs.files "src/main/resources/build.properties"
+
+    doLast {
+        new File("src/main/resources/build.properties").text = """
+            version=$project.version
+        """.stripIndent().strip()
+    }
 }

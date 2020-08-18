@@ -26,5 +26,25 @@
       <option name="name" value="Sonatype" />
       <option name="url" value="http://oss.sonatype.org/content/groups/public/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="Kord" />
+      <option name="name" value="Kord" />
+      <option name="url" value="https://dl.bintray.com/kordlib/Kord" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="MavenLocal" />
+      <option name="name" value="MavenLocal" />
+      <option name="url" value="file:/$MAVEN_REPOSITORY$/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="KotDis" />
+      <option name="name" value="KotDis" />
+      <option name="url" value="https://maven.kotlindiscord.com/repository/maven-snapshots/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="MavenLocal" />
+      <option name="name" value="MavenLocal" />
+      <option name="url" value="file:/$MAVEN_REPOSITORY$" />
+    </remote-repository>
   </component>
 </project>
