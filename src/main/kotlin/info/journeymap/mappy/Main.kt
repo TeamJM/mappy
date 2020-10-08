@@ -1,6 +1,5 @@
 package info.journeymap.mappy
 
-import com.gitlab.kordlib.common.entity.Status
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import info.journeymap.mappy.config.buildInfo
 import info.journeymap.mappy.config.config
@@ -24,9 +23,9 @@ suspend fun main() {
     bot.addExtension(SubscriptionExtension::class)
     bot.addExtension(VerificationExtension::class)
 
-    bot.start {
-        status = Status.Online
-
-        playing("Type ${config.prefix}help")
-    }
+    bot.start(
+        presenceBuilder = {
+            this.playing("Type ${config.prefix}help")
+        }
+    )
 }
