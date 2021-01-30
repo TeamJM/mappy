@@ -11,7 +11,6 @@ enum class Roles(val value: String) {
     MODERATOR("Moderator"),
 
     BOT("Bot"),
-    VERIFIED("Verified"),
     MUTED("Muted"),
 
     ANNOUNCEMENTS("Announcements");

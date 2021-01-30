@@ -5,7 +5,6 @@ import info.journeymap.mappy.config.buildInfo
 import info.journeymap.mappy.config.config
 import info.journeymap.mappy.extensions.FilterExtension
 import info.journeymap.mappy.extensions.SubscriptionExtension
-import info.journeymap.mappy.extensions.VerificationExtension
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger("main")
@@ -21,7 +20,6 @@ suspend fun main() {
 
     bot.addExtension(FilterExtension::class)
     bot.addExtension(SubscriptionExtension::class)
-    bot.addExtension(VerificationExtension::class)
 
     bot.start(
         presenceBuilder = {

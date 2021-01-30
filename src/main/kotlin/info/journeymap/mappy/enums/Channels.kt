@@ -16,8 +16,5 @@ enum class Channels(val value: String) {
     MODS("mods"),
 
     /** The channel used general server info. **/
-    INFO("info"),
-
-    /** The channel used for new user verifications. **/
-    CHECKPOINT("checkpoint")
+    INFO("info")
 }

@@ -93,7 +93,6 @@ class MappyConfig {
             Channels.BOT_LOGS -> Snowflake(config[ChannelsSpec.botLogs])
             Channels.MODS -> Snowflake(config[ChannelsSpec.mods])
             Channels.INFO -> Snowflake(config[ChannelsSpec.info])
-            Channels.CHECKPOINT -> Snowflake(config[ChannelsSpec.checkpoint])
         }
 
         return bot.kord.getChannel(snowflake) ?: throw MissingChannelException(snowflake.longValue)
@@ -111,7 +110,6 @@ class MappyConfig {
             Roles.ADMIN -> Snowflake(config[RolesSpec.admin])
             Roles.MODERATOR -> Snowflake(config[RolesSpec.moderator])
             Roles.BOT -> Snowflake(config[RolesSpec.bot])
-            Roles.VERIFIED -> Snowflake(config[RolesSpec.verified])
             Roles.MUTED -> Snowflake(config[RolesSpec.muted])
             Roles.ANNOUNCEMENTS -> Snowflake(config[RolesSpec.announcements])
         }

@@ -20,9 +20,6 @@ object ChannelsSpec : ConfigSpec("channels") {
     /** Configured info-log channel ID. **/
     val info by required<Long>()
 
-    /** Configured checkpoint channel ID. **/
-    val checkpoint by required<Long>()
-
     /** List of staff channels. **/
     val staffChannels by required<List<Long>>()
 }
