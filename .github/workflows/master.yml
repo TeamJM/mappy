@@ -16,7 +16,7 @@ jobs:
       uses: actions/setup-java@v1
       
       with:
-        version: 1.12
+        java-version: 1.12
 
     - name: Gradle Build
       run: sh gradlew build
@@ -48,7 +48,7 @@ jobs:
         cp build/*-all.jar build/libs/
 
     - name: Build Container
-      run: "docker build --file Dockerfile -t teamjm/mappy:master -t teamjm/mappy:master-$(date +%s) ."
+      run: "docker build --file Dockerfile -t teamjm/mappy:latest  -t teamjm/mappy:master -t teamjm/mappy:master-$(date +%s) ."
 
     - name: Publish Container
       run: |
