@@ -1,7 +1,7 @@
 package info.journeymap.mappy
 
-import com.gitlab.kordlib.core.entity.Message
-import com.gitlab.kordlib.rest.request.RestRequestException
+import dev.kord.core.entity.Message
+import dev.kord.rest.request.RestRequestException
 import io.ktor.http.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -52,7 +52,7 @@ suspend fun Message.deleteIgnoringNotFound() {
     try {
         this.delete()
     } catch (e: RestRequestException) {
-        if (e.code != HttpStatusCode.NotFound.value) {
+        if (e.status.code != HttpStatusCode.NotFound.value) {
             throw e
         }
     }

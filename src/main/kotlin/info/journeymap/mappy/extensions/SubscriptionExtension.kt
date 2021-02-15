@@ -1,6 +1,6 @@
 package info.journeymap.mappy.extensions
 
-import com.gitlab.kordlib.core.any
+import dev.kord.core.any
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import info.journeymap.mappy.botChannelOrModerator

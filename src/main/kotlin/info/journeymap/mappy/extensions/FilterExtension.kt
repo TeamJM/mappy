@@ -1,14 +1,14 @@
 package info.journeymap.mappy.extensions
 
-import com.gitlab.kordlib.common.entity.ChannelType
-import com.gitlab.kordlib.core.behavior.channel.createEmbed
-import com.gitlab.kordlib.core.entity.Message
-import com.gitlab.kordlib.core.entity.User
-import com.gitlab.kordlib.core.entity.channel.Channel
-import com.gitlab.kordlib.core.entity.channel.TextChannel
-import com.gitlab.kordlib.core.event.message.MessageCreateEvent
-import com.gitlab.kordlib.core.event.message.MessageUpdateEvent
-import com.gitlab.kordlib.rest.request.RestRequestException
+import dev.kord.common.entity.ChannelType
+import dev.kord.core.behavior.channel.createEmbed
+import dev.kord.core.entity.Message
+import dev.kord.core.entity.User
+import dev.kord.core.entity.channel.Channel
+import dev.kord.core.entity.channel.TextChannel
+import dev.kord.core.event.message.MessageCreateEvent
+import dev.kord.core.event.message.MessageUpdateEvent
+import dev.kord.rest.request.RestRequestException
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.checks.topRoleLower
 import com.kotlindiscord.kord.extensions.extensions.Extension
@@ -57,7 +57,7 @@ class FilterExtension(bot: ExtensibleBot) : Extension(bot) {
             )
 
             action {
-                doFilter(it.message)
+                doFilter(event.message)
             }
         }
 
@@ -68,7 +68,7 @@ class FilterExtension(bot: ExtensibleBot) : Extension(bot) {
             )
 
             action {
-                doFilter(it.getMessageOrNull() ?: return@action)  // If null, it's been deleted
+                doFilter(event.getMessageOrNull() ?: return@action)  // If null, it's been deleted
             }
         }
 
@@ -159,7 +159,7 @@ class FilterExtension(bot: ExtensibleBot) : Extension(bot) {
 
             return channel.createMessage(message)
         } catch (e: RestRequestException) {
-            if (e.code == HttpStatusCode.Forbidden.value) {
+            if (e.status.code == HttpStatusCode.Forbidden.value) {
                 val notificationMessage =
                     eventMessage.channel.createMessage("${eventMessage.author!!.mention} $message")
 

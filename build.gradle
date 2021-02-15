@@ -13,7 +13,7 @@ plugins {
     id 'com.github.jakemarsden.git-hooks' version '0.0.1'
     id 'com.github.johnrengelman.shadow' version '5.2.0'
     id 'io.gitlab.arturbosch.detekt' version '1.13.1'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.30'
 }
 
 group 'info.journeymap.mappy'
@@ -26,25 +26,36 @@ repositories {
 
     maven {
         name = 'KotDis'
-        url = 'https://maven.kotlindiscord.com/repository/maven-snapshots/'
+        url = 'https://maven.kotlindiscord.com/repository/maven-public/'
+    }
+
+    maven {
+        name = 'FabricMC'
+        url = 'https://maven.fabricmc.net/'
+    }
+
+    maven {
+        name = "Bintray (Linkie)"
+        url = uri("https://dl.bintray.com/shedaniel/linkie")
+    }
+
+    maven {
+        name = 'Jitpack'
+        url = 'https://jitpack.io/'
     }
 
     mavenCentral()
     jcenter()
-
-    maven {
-        name = 'Kord'
-        url = 'https://dl.bintray.com/kordlib/Kord'
-    }
 }
 
 dependencies {
     detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.13.1"
 
-    implementation 'com.kotlindiscord.kord.extensions:kord-extensions:1.2-SNAPSHOT'
+    implementation 'com.kotlindiscord.kord.extensions:kord-extensions:1.4.0-RC6'
+    implementation 'com.kotlindiscord.kordex.ext.mappings:ext-mappings:1.1.0-RC3'
 
-    implementation 'com.uchuhimo:konf:0.22.1'
-    implementation 'com.uchuhimo:konf-toml:0.22.1'
+    implementation 'com.uchuhimo:konf:0.23.0'
+    implementation 'com.uchuhimo:konf-toml:0.23.0'
     implementation 'com.uchuhimo:konf-yaml:0.22.1'
 
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'

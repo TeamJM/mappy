@@ -1,6 +1,6 @@
 package info.journeymap.mappy
 
-import com.gitlab.kordlib.core.event.Event
+import dev.kord.core.event.Event
 import com.kotlindiscord.kord.extensions.checks.*
 import info.journeymap.mappy.config.config
 import info.journeymap.mappy.enums.Channels

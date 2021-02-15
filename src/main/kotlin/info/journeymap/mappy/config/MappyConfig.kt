@@ -1,9 +1,9 @@
 package info.journeymap.mappy.config
 
-import com.gitlab.kordlib.common.entity.Snowflake
-import com.gitlab.kordlib.core.entity.Guild
-import com.gitlab.kordlib.core.entity.Role
-import com.gitlab.kordlib.core.entity.channel.Channel
+import dev.kord.common.entity.Snowflake
+import dev.kord.core.entity.Guild
+import dev.kord.core.entity.Role
+import dev.kord.core.entity.channel.Channel
 import com.uchuhimo.konf.Config
 import com.uchuhimo.konf.Feature
 import com.uchuhimo.konf.source.toml
@@ -95,7 +95,7 @@ class MappyConfig {
             Channels.INFO -> Snowflake(config[ChannelsSpec.info])
         }
 
-        return bot.kord.getChannel(snowflake) ?: throw MissingChannelException(snowflake.longValue)
+        return bot.kord.getChannel(snowflake) ?: throw MissingChannelException(snowflake.value)
     }
 
     /**
@@ -127,7 +127,7 @@ class MappyConfig {
     suspend fun getRole(role: Roles): Role {
         val snowflake = getRoleSnowflake(role)
 
-        return getGuild().getRoleOrNull(snowflake) ?: throw MissingRoleException(snowflake.longValue)
+        return getGuild().getRoleOrNull(snowflake) ?: throw MissingRoleException(snowflake.value)
     }
 
     /**
@@ -138,7 +138,7 @@ class MappyConfig {
      */
     @Throws(MissingGuildException::class)
     suspend fun getGuild(): Guild =
-        bot.kord.getGuild(guildSnowflake) ?: throw MissingGuildException(guildSnowflake.longValue)
+        bot.kord.getGuild(guildSnowflake) ?: throw MissingGuildException(guildSnowflake.value)
 
     /**
      * Given a [Colours] enum value, attempt to retrieve the corresponding [Color] object.
