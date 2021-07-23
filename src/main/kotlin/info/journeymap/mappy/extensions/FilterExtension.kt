@@ -1,5 +1,7 @@
 package info.journeymap.mappy.extensions
 
+import com.kotlindiscord.kord.extensions.checks.topRoleLower
+import com.kotlindiscord.kord.extensions.extensions.Extension
 import dev.kord.common.entity.ChannelType
 import dev.kord.core.behavior.channel.createEmbed
 import dev.kord.core.entity.Message
@@ -9,9 +11,6 @@ import dev.kord.core.entity.channel.TextChannel
 import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.event.message.MessageUpdateEvent
 import dev.kord.rest.request.RestRequestException
-import com.kotlindiscord.kord.extensions.ExtensibleBot
-import com.kotlindiscord.kord.extensions.checks.topRoleLower
-import com.kotlindiscord.kord.extensions.extensions.Extension
 import info.journeymap.mappy.*
 import info.journeymap.mappy.config.config
 import info.journeymap.mappy.enums.Channels
@@ -32,7 +31,7 @@ private const val DELETE_DELAY = 10_000L
  *
  * This is loosely based on the filter extension in Kotlin Discord's bot.
  */
-class FilterExtension(bot: ExtensibleBot) : Extension(bot) {
+class FilterExtension : Extension() {
     override val name: String = "filter"
 
     private val extractor = LinkExtractor.builder()
@@ -52,8 +51,8 @@ class FilterExtension(bot: ExtensibleBot) : Extension(bot) {
     override suspend fun setup() {
         event<MessageCreateEvent> {
             check(
-                ::defaultCheck,
-                topRoleLower(config.getRole(Roles.MODERATOR))
+                defaultCheck,
+                topRoleLower { config.getRole(Roles.MODERATOR) }
             )
 
             action {
@@ -63,8 +62,8 @@ class FilterExtension(bot: ExtensibleBot) : Extension(bot) {
 
         event<MessageUpdateEvent> {
             check(
-                ::defaultCheck,
-                topRoleLower(config.getRole(Roles.MODERATOR))
+                defaultCheck,
+                topRoleLower { config.getRole(Roles.MODERATOR) }
             )
 
             action {

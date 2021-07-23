@@ -1,7 +1,8 @@
 package info.journeymap.mappy
 
-import dev.kord.core.event.Event
 import com.kotlindiscord.kord.extensions.checks.*
+import com.kotlindiscord.kord.extensions.checks.types.CheckContext
+import dev.kord.core.event.Event
 import info.journeymap.mappy.config.config
 import info.journeymap.mappy.enums.Channels
 import info.journeymap.mappy.enums.Roles
@@ -17,40 +18,46 @@ import mu.KotlinLogging
  *
  * @param event The event to run this check against.
  */
-suspend fun defaultCheck(event: Event): Boolean {
+val defaultCheck: suspend CheckContext<Event>.() -> Unit = {
     val logger = KotlinLogging.logger {}
 
     val message = messageFor(event)?.asMessage()
 
-    return when {
+    when {
         message == null                                      -> {
             logger.debug { "Failing check: Message for event $event is null. This type of event may not be supported." }
-            false
+
+            fail()
         }
 
         message.getGuildOrNull()?.id != config.getGuild().id -> {
             logger.debug { "Failing check: Not in the correct guild" }
-            false
+
+            fail("Must be in the JourneyMap server")
         }
 
         message.author == null                               -> {
             logger.debug { "Failing check: Message sent by a webhook or system message" }
-            false
+
+            fail()
         }
 
-        message.author!!.id == bot.kord.getSelf().id         -> {
+        message.author!!.id == event.kord.getSelf().id         -> {
             logger.debug { "Failing check: We sent this message" }
-            false
+
+            fail()
         }
 
         message.author!!.isBot == true                       -> {
             logger.debug { "Failing check: This message was sent by another bot" }
-            false
+
+            fail()
         }
 
         else                                                 -> {
             logger.debug { "Passing check" }
-            true
+
+            pass()
         }
     }
 }
@@ -60,25 +67,28 @@ suspend fun defaultCheck(event: Event): Boolean {
  *
  * @param event The event to run this check against.
  */
-suspend fun inBotChannel(event: Event): Boolean {
+val inBotChannel: suspend CheckContext<Event>.() -> Unit = {
     val logger = KotlinLogging.logger {}
 
     val channel = channelFor(event)
 
-    return when {
+    when {
         channel == null                                           -> {
             logger.debug { "Failing check: Channel is null" }
-            false
+
+            fail()
         }
 
         channel.id != config.getChannel(Channels.BOT_COMMANDS).id -> {
             logger.debug { "Failing check: Not in bot commands" }
-            false
+
+            fail("Must be in " + config.getChannel(Channels.BOT_COMMANDS).mention)
         }
 
         else                                                      -> {
             logger.debug { "Passing check" }
-            true
+
+            pass()
         }
     }
 }
@@ -87,36 +97,39 @@ suspend fun inBotChannel(event: Event): Boolean {
  * Check that checks that the user is at least a moderator, or that the event
  * happened in the bot commands channel.
  */
-suspend fun botChannelOrModerator(): suspend (Event) -> Boolean = or(
-    ::inBotChannel,
-    hasRole(config.getRole(Roles.MODERATOR)),
-    hasRole(config.getRole(Roles.ADMIN)),
-    hasRole(config.getRole(Roles.OWNER))
+val botChannelOrModerator = or(
+    inBotChannel,
+    hasRole { config.getRole(Roles.MODERATOR) },
+    hasRole { config.getRole(Roles.ADMIN) },
+    hasRole { config.getRole(Roles.OWNER) }
 )
 
 /**
  * Check that ensures an event wasn't fired by a bot. If an event doesn't
  * concern a specific user, then this check will pass.
  */
-suspend fun isNotBot(event: Event): Boolean {
+val isNotBot: suspend CheckContext<Event>.() -> Unit = {
     val logger = KotlinLogging.logger {}
 
     val user = userFor(event)
 
-    return when {
+    when {
         user == null                -> {
             logger.debug { "Passing check: User for event $event is null." }
-            true
+
+            pass()
         }
 
         user.asUser().isBot == true -> {
             logger.debug { "Failing check: User $user is a bot." }
-            false
+
+            fail()
         }
 
         else                        -> {
             logger.debug { "Passing check." }
-            true
+
+            pass()
         }
     }
 }

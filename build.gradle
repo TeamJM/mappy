@@ -13,13 +13,13 @@ plugins {
     id 'com.github.jakemarsden.git-hooks' version '0.0.1'
     id 'com.github.johnrengelman.shadow' version '5.2.0'
     id 'io.gitlab.arturbosch.detekt' version '1.13.1'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.30'
+    id 'org.jetbrains.kotlin.jvm' version '1.5.10'
 }
 
 group 'info.journeymap.mappy'
 version '2.1-SNAPSHOT'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.14
 
 repositories {
     mavenLocal()
@@ -51,8 +51,8 @@ repositories {
 dependencies {
     detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.13.1"
 
-    implementation 'com.kotlindiscord.kord.extensions:kord-extensions:1.4.0-RC6'
-    implementation 'com.kotlindiscord.kordex.ext.mappings:ext-mappings:1.1.0-RC3'
+    implementation 'com.kotlindiscord.kord.extensions:kord-extensions:1.4.3-SNAPSHOT'
+    implementation 'com.kotlindiscord.kord.extensions:extra-mappings:1.4.3-SNAPSHOT'
 
     implementation 'com.uchuhimo:konf:0.23.0'
     implementation 'com.uchuhimo:konf-toml:0.23.0'
@@ -66,8 +66,7 @@ dependencies {
     // Logging dependencies
     implementation 'ch.qos.logback:logback-classic:1.2.3'
     implementation 'io.github.microutils:kotlin-logging:2.0.3'
-    implementation 'io.sentry:sentry-logback:1.7.30'
-    implementation 'org.codehaus.groovy:groovy:3.0.4'  // For logback config
+    implementation 'org.codehaus.groovy:groovy:3.0.8'  // For logback config
 }
 
 application {
@@ -75,11 +74,11 @@ application {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = '11'
+    kotlinOptions.jvmTarget = '14'
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = '11'
+    kotlinOptions.jvmTarget = '14'
 }
 
 detekt {
@@ -103,6 +102,7 @@ processResources {
     dependsOn "generateBuildInfo"
 
     from "src/main/resources/build.properties"
+    duplicatesStrategy DuplicatesStrategy.EXCLUDE
 }
 
 task generateBuildInfo() {

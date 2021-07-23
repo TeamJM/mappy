@@ -1,4 +1,4 @@
-FROM openjdk:14-alpine
+FROM openjdk:16-alpine
 
 RUN mkdir /app
 COPY build/libs/Mappy-*-all.jar /

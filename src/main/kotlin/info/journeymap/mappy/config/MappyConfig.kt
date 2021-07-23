@@ -1,28 +1,29 @@
 package info.journeymap.mappy.config
 
-import dev.kord.common.entity.Snowflake
-import dev.kord.core.entity.Guild
-import dev.kord.core.entity.Role
-import dev.kord.core.entity.channel.Channel
 import com.uchuhimo.konf.Config
 import com.uchuhimo.konf.Feature
 import com.uchuhimo.konf.source.toml
+import dev.kord.common.entity.Snowflake
+import dev.kord.core.Kord
+import dev.kord.core.entity.Guild
+import dev.kord.core.entity.Role
+import dev.kord.core.entity.channel.Channel
 import info.journeymap.mappy.MissingChannelException
 import info.journeymap.mappy.MissingGuildException
 import info.journeymap.mappy.MissingRoleException
-import info.journeymap.mappy.bot
 import info.journeymap.mappy.config.spec.*
 import info.journeymap.mappy.enums.Channels
 import info.journeymap.mappy.enums.Colours
 import info.journeymap.mappy.enums.Roles
 import info.journeymap.mappy.enums.Titles
+import org.koin.core.component.KoinComponent
 import java.awt.Color
 import java.io.File
 
 /**
  * Class representing the bot's configuration.
  */
-class MappyConfig {
+class MappyConfig : KoinComponent {
     private var config = Config {
         addSpec(BotSpec)
         addSpec(ChannelsSpec)
@@ -88,14 +89,16 @@ class MappyConfig {
      */
     @Throws(MissingChannelException::class)
     suspend fun getChannel(channel: Channels): Channel {
+        val kord = getKoin().get<Kord>()
+
         val snowflake = when (channel) {
             Channels.BOT_COMMANDS -> Snowflake(config[ChannelsSpec.botCommands])
-            Channels.BOT_LOGS -> Snowflake(config[ChannelsSpec.botLogs])
-            Channels.MODS -> Snowflake(config[ChannelsSpec.mods])
-            Channels.INFO -> Snowflake(config[ChannelsSpec.info])
+            Channels.BOT_LOGS     -> Snowflake(config[ChannelsSpec.botLogs])
+            Channels.MODS         -> Snowflake(config[ChannelsSpec.mods])
+            Channels.INFO         -> Snowflake(config[ChannelsSpec.info])
         }
 
-        return bot.kord.getChannel(snowflake) ?: throw MissingChannelException(snowflake.value)
+        return kord.getChannel(snowflake) ?: throw MissingChannelException(snowflake.value)
     }
 
     /**
@@ -106,11 +109,11 @@ class MappyConfig {
      */
     fun getRoleSnowflake(role: Roles): Snowflake {
         return when (role) {
-            Roles.OWNER -> Snowflake(config[RolesSpec.owner])
-            Roles.ADMIN -> Snowflake(config[RolesSpec.admin])
-            Roles.MODERATOR -> Snowflake(config[RolesSpec.moderator])
-            Roles.BOT -> Snowflake(config[RolesSpec.bot])
-            Roles.MUTED -> Snowflake(config[RolesSpec.muted])
+            Roles.OWNER         -> Snowflake(config[RolesSpec.owner])
+            Roles.ADMIN         -> Snowflake(config[RolesSpec.admin])
+            Roles.MODERATOR     -> Snowflake(config[RolesSpec.moderator])
+            Roles.BOT           -> Snowflake(config[RolesSpec.bot])
+            Roles.MUTED         -> Snowflake(config[RolesSpec.muted])
             Roles.ANNOUNCEMENTS -> Snowflake(config[RolesSpec.announcements])
         }
     }
@@ -137,8 +140,11 @@ class MappyConfig {
      * @throws MissingGuildException Thrown if the configured [Guild] cannot be found.
      */
     @Throws(MissingGuildException::class)
-    suspend fun getGuild(): Guild =
-        bot.kord.getGuild(guildSnowflake) ?: throw MissingGuildException(guildSnowflake.value)
+    suspend fun getGuild(): Guild {
+        val kord = getKoin().get<Kord>()
+
+        return kord.getGuild(guildSnowflake) ?: throw MissingGuildException(guildSnowflake.value)
+    }
 
     /**
      * Given a [Colours] enum value, attempt to retrieve the corresponding [Color] object.
@@ -147,8 +153,8 @@ class MappyConfig {
      * @return The [Color] object represented by the given [Colours] enum value.
      */
     fun getColour(colour: Colours): Color = when (colour) {
-        Colours.RED -> Color.decode(config[ColourSpec.red].toString())
-        Colours.GREEN -> Color.decode(config[ColourSpec.green].toString())
+        Colours.RED     -> Color.decode(config[ColourSpec.red].toString())
+        Colours.GREEN   -> Color.decode(config[ColourSpec.green].toString())
         Colours.BLURPLE -> Color.decode("#7289DA")  // Discord blurple
     }
 

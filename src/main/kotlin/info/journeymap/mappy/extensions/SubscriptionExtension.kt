@@ -1,8 +1,7 @@
 package info.journeymap.mappy.extensions
 
-import dev.kord.core.any
-import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.extensions.Extension
+import dev.kord.core.any
 import info.journeymap.mappy.botChannelOrModerator
 import info.journeymap.mappy.config.config
 import info.journeymap.mappy.defaultCheck
@@ -24,7 +23,7 @@ private const val DELETE_DELAY = 10_000L
  *
  * This extension is taken from Kotlin Discord's bot.
  */
-class SubscriptionExtension(bot: ExtensibleBot) : Extension(bot) {
+class SubscriptionExtension : Extension() {
     override val name: String = "subscription"
 
     override suspend fun setup() {
@@ -42,8 +41,8 @@ class SubscriptionExtension(bot: ExtensibleBot) : Extension(bot) {
             """.trimIndent()
 
             check(
-                ::defaultCheck,
-                botChannelOrModerator()
+                defaultCheck,
+                botChannelOrModerator
             )
 
             action {
@@ -80,8 +79,8 @@ class SubscriptionExtension(bot: ExtensibleBot) : Extension(bot) {
             """.trimIndent()
 
             check(
-                ::defaultCheck,
-                botChannelOrModerator()
+                defaultCheck,
+                botChannelOrModerator
             )
 
             action {

@@ -167,3 +167,6 @@ scripts/Saltcord
 
 # Unknown leftover files
 .#*
+
+# Linkie cache
+.linkie-cache
