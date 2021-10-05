@@ -1,6 +1,7 @@
 package info.journeymap.mappy.extensions
 
 import com.kotlindiscord.kord.extensions.extensions.Extension
+import com.kotlindiscord.kord.extensions.extensions.chatCommand
 import dev.kord.core.any
 import info.journeymap.mappy.botChannelOrModerator
 import info.journeymap.mappy.config.config
@@ -27,7 +28,7 @@ class SubscriptionExtension : Extension() {
     override val name: String = "subscription"
 
     override suspend fun setup() {
-        command {
+        chatCommand {
             name = "subscribe"
             aliases = arrayOf("sub")
 
@@ -65,7 +66,7 @@ class SubscriptionExtension : Extension() {
             }
         }
 
-        command {
+        chatCommand {
             name = "unsubscribe"
             aliases = arrayOf("unsub")
 

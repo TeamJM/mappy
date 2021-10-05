@@ -2,6 +2,7 @@ package info.journeymap.mappy.extensions
 
 import com.kotlindiscord.kord.extensions.checks.topRoleLower
 import com.kotlindiscord.kord.extensions.extensions.Extension
+import com.kotlindiscord.kord.extensions.extensions.event
 import dev.kord.common.entity.ChannelType
 import dev.kord.core.behavior.channel.createEmbed
 import dev.kord.core.entity.Message
@@ -50,10 +51,8 @@ class FilterExtension : Extension() {
 
     override suspend fun setup() {
         event<MessageCreateEvent> {
-            check(
-                defaultCheck,
-                topRoleLower { config.getRole(Roles.MODERATOR) }
-            )
+            check(defaultCheck)
+            check { topRoleLower { config.getRole(Roles.MODERATOR) } }
 
             action {
                 doFilter(event.message)
@@ -61,10 +60,8 @@ class FilterExtension : Extension() {
         }
 
         event<MessageUpdateEvent> {
-            check(
-                defaultCheck,
-                topRoleLower { config.getRole(Roles.MODERATOR) }
-            )
+            check(defaultCheck)
+            check { topRoleLower { config.getRole(Roles.MODERATOR) } }
 
             action {
                 doFilter(event.getMessageOrNull() ?: return@action)  // If null, it's been deleted

@@ -42,7 +42,7 @@ val defaultCheck: suspend CheckContext<Event>.() -> Unit = {
             fail()
         }
 
-        message.author!!.id == event.kord.getSelf().id         -> {
+        message.author!!.id == event.kord.getSelf().id       -> {
             logger.debug { "Failing check: We sent this message" }
 
             fail()
@@ -97,39 +97,10 @@ val inBotChannel: suspend CheckContext<Event>.() -> Unit = {
  * Check that checks that the user is at least a moderator, or that the event
  * happened in the bot commands channel.
  */
-val botChannelOrModerator = or(
-    inBotChannel,
-    hasRole { config.getRole(Roles.MODERATOR) },
-    hasRole { config.getRole(Roles.ADMIN) },
+val botChannelOrModerator: suspend CheckContext<Event>.() -> Unit = {
+    inBotChannel()
+
+    hasRole { config.getRole(Roles.MODERATOR) }
+    hasRole { config.getRole(Roles.ADMIN) }
     hasRole { config.getRole(Roles.OWNER) }
-)
-
-/**
- * Check that ensures an event wasn't fired by a bot. If an event doesn't
- * concern a specific user, then this check will pass.
- */
-val isNotBot: suspend CheckContext<Event>.() -> Unit = {
-    val logger = KotlinLogging.logger {}
-
-    val user = userFor(event)
-
-    when {
-        user == null                -> {
-            logger.debug { "Passing check: User for event $event is null." }
-
-            pass()
-        }
-
-        user.asUser().isBot == true -> {
-            logger.debug { "Failing check: User $user is a bot." }
-
-            fail()
-        }
-
-        else                        -> {
-            logger.debug { "Passing check." }
-
-            pass()
-        }
-    }
 }

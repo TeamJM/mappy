@@ -4,6 +4,9 @@ import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.modules.extra.mappings.extMappings
 import info.journeymap.mappy.config.buildInfo
 import info.journeymap.mappy.config.config
+import info.journeymap.mappy.extensions.FilterExtension
+import info.journeymap.mappy.extensions.PhishingExtension
+import info.journeymap.mappy.extensions.SubscriptionExtension
 import mu.KotlinLogging
 
 @Suppress("MagicNumber", "UnderscoresInNumericLiterals")  // They're channel IDs
@@ -19,13 +22,19 @@ suspend fun main() {
     logger.info { "Starting Mappy, version ${buildInfo.version}." }
 
     val bot = ExtensibleBot(config.token) {
-        messageCommands {
+        chatCommands {
+            enabled = true
+
             defaultPrefix = config.prefix
         }
 
         extensions {
+            add(::FilterExtension)
+            add(::PhishingExtension)
+            add(::SubscriptionExtension)
+
             extMappings {
-                commandCheck { command ->
+                commandCheck { _ ->
                     {
                         if (ALLOWED_CHANNELS.contains(event.message.channelId.value)) {
                             pass()
