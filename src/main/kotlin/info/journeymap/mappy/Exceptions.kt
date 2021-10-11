@@ -8,21 +8,21 @@ open class KDException : Exception()
  *
  * @param id: The numerical ID representing the missing object.
  */
-open class MissingObjectException(val id: Long) : KDException() {
+open class MissingObjectException(val id: ULong) : KDException() {
     override fun toString(): String = "Unable to find object with ID: $id"
 }
 
 /** Thrown when a configured role cannot be found. **/
-class MissingRoleException(id: Long) : MissingObjectException(id) {
+class MissingRoleException(id: ULong) : MissingObjectException(id) {
     override fun toString(): String = "Unable to find role with ID: $id"
 }
 
 /** Thrown when a configured guild cannot be found. **/
-class MissingGuildException(id: Long) : MissingObjectException(id) {
+class MissingGuildException(id: ULong) : MissingObjectException(id) {
     override fun toString(): String = "Unable to find guild with ID: $id"
 }
 
 /** Thrown when a configured channel cannot be found. **/
-class MissingChannelException(id: Long) : MissingObjectException(id) {
+class MissingChannelException(id: ULong) : MissingObjectException(id) {
     override fun toString(): String = "Unable to find channel with ID: $id"
 }
