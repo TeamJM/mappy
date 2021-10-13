@@ -48,6 +48,7 @@ suspend fun main() {
             extPhishing {
                 regex("([^\\s`\"'<>/]+\\s*(?:\\.|dot)+\\s*[^\\s`\"'<>/]+)")
 
+                appName = "JourneyMap, Mappy Bot"
                 detectionAction = DetectionAction.Ban
                 logChannelName = "logs"
             }
