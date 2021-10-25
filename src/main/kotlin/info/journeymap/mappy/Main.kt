@@ -50,7 +50,7 @@ suspend fun main() {
 
                 appName = "JourneyMap, Mappy Bot"
                 detectionAction = DetectionAction.Ban
-                logChannelName = "logs"
+                logChannelName = "alerts"
             }
         }
 
