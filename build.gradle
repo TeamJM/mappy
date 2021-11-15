@@ -59,9 +59,9 @@ repositories {
 dependencies {
     detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.13.1"
 
-    implementation 'com.kotlindiscord.kord.extensions:kord-extensions:1.5.1-RC1'
-    implementation 'com.kotlindiscord.kord.extensions:extra-mappings:1.5.1-RC1'
-    implementation 'com.kotlindiscord.kord.extensions:extra-phishing:1.5.1-RC1'
+    implementation 'com.kotlindiscord.kord.extensions:kord-extensions:1.5.1-SNAPSHOT'
+    implementation 'com.kotlindiscord.kord.extensions:extra-mappings:1.5.1-SNAPSHOT'
+    implementation 'com.kotlindiscord.kord.extensions:extra-phishing:1.5.1-SNAPSHOT'
 
     implementation 'com.uchuhimo:konf:0.23.0'
     implementation 'com.uchuhimo:konf-toml:0.23.0'
