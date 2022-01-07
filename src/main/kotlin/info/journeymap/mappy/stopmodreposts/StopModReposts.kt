@@ -2,18 +2,17 @@ package info.journeymap.mappy.stopmodreposts
 
 import com.uchuhimo.konf.Config
 import com.uchuhimo.konf.source.yaml
+import com.uchuhimo.konf.toValue
 
-private const val REPOSTS_URL = "https://api.varden.info/smr/sitelist.php?format=yaml"
+private const val REPOSTS_URL = "https://api.stopmodreposts.org/sites.yaml"
 
 /** Config-like class providing access to StopModReposts data. **/
 class StopModReposts {
-    private val config = Config {
-        addSpec(ModRepostsSpec)
-    }
+    private val config = Config()
         .from.yaml.url(REPOSTS_URL)
 
     /** Map of bad domains from StopModReposts. **/
-    val domains: Map<String, ModReposts> = config[ModRepostsSpec.sites].map { it.domain to it }.toMap()
+    val domains: Map<String, ModReposts> = config.toValue<List<ModReposts>>().associateBy { it.domain }
 }
 
 /**

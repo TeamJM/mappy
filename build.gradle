@@ -12,8 +12,8 @@ plugins {
 
     id 'com.github.jakemarsden.git-hooks' version '0.0.1'
     id 'com.github.johnrengelman.shadow' version '5.2.0'
-    id 'io.gitlab.arturbosch.detekt' version '1.13.1'
-    id 'org.jetbrains.kotlin.jvm' version '1.5.30'
+    id 'io.gitlab.arturbosch.detekt' version '1.17.1'
+    id 'org.jetbrains.kotlin.jvm' version '1.6.10'
 }
 
 group 'info.journeymap.mappy'
@@ -57,25 +57,24 @@ repositories {
 }
 
 dependencies {
-    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.13.1"
+    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.17.1"
 
     implementation 'com.kotlindiscord.kord.extensions:kord-extensions:1.5.1-SNAPSHOT'
     implementation 'com.kotlindiscord.kord.extensions:extra-mappings:1.5.1-SNAPSHOT'
     implementation 'com.kotlindiscord.kord.extensions:extra-phishing:1.5.1-SNAPSHOT'
 
-    implementation 'com.uchuhimo:konf:0.23.0'
-    implementation 'com.uchuhimo:konf-toml:0.23.0'
-    implementation 'com.uchuhimo:konf-yaml:0.22.1'
+    implementation 'com.uchuhimo:konf:1.1.2'
+    implementation 'com.uchuhimo:konf-toml:1.1.2'
+    implementation 'com.uchuhimo:konf-yaml:1.1.2'
 
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
-    implementation 'io.ktor:ktor-client-logging:1.6.0'
 
     implementation 'org.nibor.autolink:autolink:0.10.0'
 
     // Logging dependencies
-    implementation 'ch.qos.logback:logback-classic:1.2.3'
-    implementation 'io.github.microutils:kotlin-logging:2.0.3'
+    implementation 'ch.qos.logback:logback-classic:1.2.5'
+    implementation 'io.github.microutils:kotlin-logging:2.1.21'
     implementation 'org.codehaus.groovy:groovy:3.0.8'  // For logback config
 }
 

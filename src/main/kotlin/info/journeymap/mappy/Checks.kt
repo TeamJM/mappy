@@ -98,9 +98,17 @@ val inBotChannel: suspend CheckContext<Event>.() -> Unit = {
  * happened in the bot commands channel.
  */
 val botChannelOrModerator: suspend CheckContext<Event>.() -> Unit = {
-    inBotChannel()
-
     hasRole { config.getRole(Roles.MODERATOR) }
-    hasRole { config.getRole(Roles.ADMIN) }
-    hasRole { config.getRole(Roles.OWNER) }
+
+    if (!passed) {
+        hasRole { config.getRole(Roles.ADMIN) }
+    }
+
+    if (!passed) {
+        hasRole { config.getRole(Roles.OWNER) }
+    }
+
+    if (!passed) {
+        inBotChannel()
+    }
 }
